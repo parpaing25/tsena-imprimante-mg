@@ -293,7 +293,7 @@ const ProformaQuoteForm = () => {
                       <SelectTrigger>
                         <SelectValue placeholder="Sélectionnez" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-background border shadow-md z-50">
                         {regions.map(region => (
                           <SelectItem key={region} value={region}>{region}</SelectItem>
                         ))}
