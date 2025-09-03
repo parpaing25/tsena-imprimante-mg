@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, Filter, SlidersHorizontal } from "lucide-react";
 import ProductCard from "./ProductCard";
+import ProductDetailModal from "./ProductDetailModal";
 import { products, Product, getPopularProducts } from "@/data/products";
 import { toast } from "sonner";
 import AnimatedSection from "./AnimatedSection";
@@ -17,6 +18,8 @@ const ProductCatalog = () => {
   const [priceRange, setPriceRange] = useState<string>("all");
   const [hasWifi, setHasWifi] = useState<boolean | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const brands = Array.from(new Set(products.map(p => p.brand)));
   const types = Array.from(new Set(products.map(p => p.type)));
@@ -54,15 +57,10 @@ const ProductCatalog = () => {
   const handleRequestQuote = (productId: string) => {
     const product = products.find(p => p.id === productId);
     if (product) {
-      toast.success(`Demande de devis pour ${product.name}`, {
-        description: "Vous allez être redirigé vers le formulaire de devis.",
-        action: {
-          label: "Continuer",
-          onClick: () => {
-            // Scroll to quote form
-            document.getElementById("devis")?.scrollIntoView({ behavior: "smooth" });
-          }
-        }
+      // Scroll directement vers le formulaire de devis
+      document.getElementById("devis")?.scrollIntoView({ behavior: "smooth" });
+      toast.success(`Devis demandé pour ${product.name}`, {
+        description: "Vous pouvez maintenant remplir le formulaire ci-dessous."
       });
     }
   };
@@ -70,9 +68,8 @@ const ProductCatalog = () => {
   const handleViewDetails = (productId: string) => {
     const product = products.find(p => p.id === productId);
     if (product) {
-      toast.info(`Détails de ${product.name}`, {
-        description: "Fonctionnalité en cours de développement"
-      });
+      setSelectedProduct(product);
+      setIsModalOpen(true);
     }
   };
 
@@ -255,6 +252,13 @@ const ProductCatalog = () => {
             </Button>
           </div>
         )}
+
+        <ProductDetailModal 
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onRequestQuote={handleRequestQuote}
+        />
       </div>
     </section>
   );
