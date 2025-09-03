@@ -2,6 +2,82 @@ import jsPDF from 'jspdf';
 import { Product } from '@/data/products';
 import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice, DeliveryType } from './deliveryRates';
 
+// Fonction pour convertir les nombres en lettres
+function numberToWords(num: number): string {
+  const units = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
+  const teens = ['dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+  const tens = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingts', 'quatre-vingt-dix'];
+  const scales = ['', 'mille', 'million', 'milliard'];
+
+  if (num === 0) return 'zéro';
+
+  function convertHundreds(n: number): string {
+    let result = '';
+    
+    if (n >= 100) {
+      const hundreds = Math.floor(n / 100);
+      if (hundreds === 1) {
+        result += 'cent';
+      } else {
+        result += units[hundreds] + ' cent';
+      }
+      if (n % 100 !== 0) result += ' ';
+    }
+    
+    n %= 100;
+    
+    if (n >= 20) {
+      const tensDigit = Math.floor(n / 10);
+      const unitsDigit = n % 10;
+      
+      if (tensDigit === 7) {
+        result += 'soixante';
+        if (unitsDigit >= 10) {
+          result += '-' + teens[unitsDigit - 10];
+        } else if (unitsDigit > 0) {
+          result += '-' + units[unitsDigit + 10];
+        }
+      } else if (tensDigit === 9) {
+        result += 'quatre-vingt';
+        if (unitsDigit >= 10) {
+          result += '-' + teens[unitsDigit - 10];
+        } else if (unitsDigit > 0) {
+          result += '-' + units[unitsDigit + 10];
+        }
+      } else {
+        result += tens[tensDigit];
+        if (unitsDigit > 0) {
+          result += '-' + units[unitsDigit];
+        }
+      }
+    } else if (n >= 10) {
+      result += teens[n - 10];
+    } else if (n > 0) {
+      result += units[n];
+    }
+    
+    return result;
+  }
+
+  let result = '';
+  let scaleIndex = 0;
+  
+  while (num > 0) {
+    const chunk = num % 1000;
+    if (chunk !== 0) {
+      let chunkText = convertHundreds(chunk);
+      if (scaleIndex > 0) {
+        chunkText += ' ' + scales[scaleIndex];
+      }
+      result = chunkText + (result ? ' ' + result : '');
+    }
+    num = Math.floor(num / 1000);
+    scaleIndex++;
+  }
+  
+  return result;
+}
+
 export interface InvoiceData {
   quoteNumber: string;
   date: string;
@@ -28,17 +104,25 @@ export interface InvoiceData {
 
 export class PDFGenerator {
   private static addHeader(pdf: jsPDF) {
-    // Logo et en-tête entreprise
+    // Logo et en-tête entreprise avec logo
+    try {
+      // Ajouter le logo (si disponible)
+      const logoImg = '/src/assets/tsena-logo.png';
+      // pdf.addImage(logoImg, 'PNG', 20, 15, 15, 15); // Position x, y, largeur, hauteur
+    } catch (error) {
+      // Si le logo n'est pas disponible, continuer sans
+    }
+    
     pdf.setFontSize(24);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(44, 82, 130); // Couleur primaire
-    pdf.text('TSENA IMPRIMANTE', 20, 30);
+    pdf.text('TSENA IMPRIMANTE', 40, 30); // Décalé pour laisser place au logo
     
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(100, 100, 100);
-    pdf.text('Votre partenaire imprimante eto Madagasikara', 20, 38);
-    pdf.text('☎ 033 71 063 34 | Facebook: TsenaImprimante', 20, 45);
+    pdf.text('Votre partenaire imprimante eto Madagasikara', 40, 38);
+    pdf.text('033 71 063 34 | Facebook: TsenaImprimante', 40, 45);
     
     // Ligne de séparation
     pdf.setDrawColor(44, 82, 130);
@@ -105,8 +189,8 @@ export class PDFGenerator {
     pdf.setFont('helvetica', 'bold');
     pdf.text('DESCRIPTION', 25, currentY + 5);
     pdf.text('QTÉ', 125, currentY + 5, { align: 'center' });
-    pdf.text('PRIX UNIT.', 145, currentY + 5, { align: 'center' });
-    pdf.text('TOTAL', 175, currentY + 5, { align: 'center' });
+    pdf.text('PRIX UNIT. TTC', 145, currentY + 5, { align: 'center' });
+    pdf.text('TOTAL TTC', 175, currentY + 5, { align: 'center' });
     
     currentY += 10;
     
@@ -135,13 +219,13 @@ export class PDFGenerator {
       // Quantité centrée
       pdf.text(item.quantity.toString(), 125, currentY - 2, { align: 'center' });
       
-      // Prix unitaire avec formatage amélioré
+      // Prix unitaire avec formatage amélioré TTC
       const unitPriceFormatted = formatPrice(item.unitPrice);
-      pdf.text(`${unitPriceFormatted}`, 145, currentY - 2, { align: 'center' });
+      pdf.text(`${unitPriceFormatted} TTC`, 145, currentY - 2, { align: 'center' });
       
-      // Total avec formatage amélioré
+      // Total avec formatage amélioré TTC
       const totalFormatted = formatPrice(item.total);
-      pdf.text(`${totalFormatted}`, 175, currentY - 2, { align: 'center' });
+      pdf.text(`${totalFormatted} TTC`, 175, currentY - 2, { align: 'center' });
       
       // Ligne de séparation
       pdf.setDrawColor(200, 200, 200);
@@ -183,11 +267,11 @@ export class PDFGenerator {
   private static addTotals(pdf: jsPDF, invoiceData: InvoiceData, y: number) {
     const rightAlign = 175;
     
-    // Sous-total
+    // Sous-total TTC
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0, 0, 0);
-    pdf.text('Sous-total:', 120, y);
+    pdf.text('Sous-total TTC:', 120, y);
     const subtotalFormatted = formatPrice(invoiceData.subtotal);
     pdf.text(`${subtotalFormatted} MGA`, rightAlign, y, { align: 'center' });
     
@@ -201,13 +285,22 @@ export class PDFGenerator {
     pdf.setLineWidth(0.5);
     pdf.line(120, y + 12, 185, y + 12);
     
-    // Total
+    // Total TTC
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(220, 38, 127);
-    pdf.text('TOTAL:', 120, y + 20);
+    pdf.text('TOTAL TTC:', 120, y + 20);
     const totalFormatted = formatPrice(invoiceData.total);
     pdf.text(`${totalFormatted} MGA`, rightAlign, y + 20, { align: 'center' });
+    
+    // Montant en lettres
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'italic');
+    pdf.setTextColor(100, 100, 100);
+    const totalInWords = numberToWords(invoiceData.total);
+    pdf.text(`Arrêté la présente facture à la somme de: ${totalInWords} ariary`, 20, y + 35);
+    
+    return y + 40;
   }
 
   private static addFooter(pdf: jsPDF, invoiceData: InvoiceData) {
@@ -261,7 +354,7 @@ export class PDFGenerator {
     currentY += 10;
     
     // Totals
-    this.addTotals(pdf, invoiceData, currentY);
+    currentY = this.addTotals(pdf, invoiceData, currentY);
     
     // Footer
     this.addFooter(pdf, invoiceData);
