@@ -28,19 +28,19 @@ const Conseils = () => {
 
   const handleCommand = (productName: string) => {
     const message = `Bonjour ! Je souhaite commander l'imprimante ${productName}. Pouvez-vous me donner plus d'informations ?`;
-    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/261327209033?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const handleQuote = (productName: string) => {
     const message = `Bonjour ! Je souhaite un devis pour l'imprimante ${productName}. Merci !`;
-    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/261327209033?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const handleStock = (productName: string) => {
     const message = `Bonjour ! Est-ce que l'imprimante ${productName} est disponible en stock ?`;
-    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/261327209033?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

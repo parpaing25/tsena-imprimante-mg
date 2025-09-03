@@ -70,7 +70,7 @@ const ProformaQuoteForm = () => {
   };
 
   const handleWhatsApp = (message: string) => {
-    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/261327209033?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
