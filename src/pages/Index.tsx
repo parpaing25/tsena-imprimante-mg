@@ -254,6 +254,213 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Testimonials */}
+        <section className="py-16 bg-gradient-subtle">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-primary mb-4">
+                Ce que disent nos clients
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Plus de 2000 clients satisfaits depuis 2019
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="hover:shadow-medium transition-all duration-300">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="flex text-warning">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    "Service exceptionnel ! Installation rapide à domicile et formation complète. 
+                    Mon Canon EcoTank fonctionne parfaitement depuis 6 mois."
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-primary">RM</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">Rakoto Michel</p>
+                      <p className="text-xs text-muted-foreground">Antananarivo</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-medium transition-all duration-300">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="flex text-warning">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    "Livraison ultra rapide à Antsirabe ! Imprimante laser parfaite pour mon bureau. 
+                    Support technique au top quand j'ai eu un souci."
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-success/10 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-success">SA</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">Sophie Andriana</p>
+                      <p className="text-xs text-muted-foreground">Antsirabe</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-medium transition-all duration-300">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="flex text-warning">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    "Conseils d'expert pour choisir la bonne imprimante. Prix compétitifs et 
+                    garantie respectée. Je recommande vivement !"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-accent/10 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-accent">JR</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">Jean Claude Rasolofo</p>
+                      <p className="text-xs text-muted-foreground">Mahajanga</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="text-center mt-8">
+              <Button onClick={handleCall} className="btn-hero">
+                <Phone className="h-4 w-4 mr-2" />
+                Rejoignez nos clients satisfaits !
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Brands Section */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-primary mb-4">
+                Nos Partenaires de Confiance
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Nous travaillons avec les plus grandes marques mondiales
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+              <Card className="text-center p-6 hover:shadow-medium transition-all duration-300">
+                <div className="h-16 flex items-center justify-center mb-4">
+                  <span className="text-2xl font-bold text-red-600">Canon</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Leader mondial</p>
+                <p className="text-xs text-muted-foreground">Qualité professionnelle</p>
+              </Card>
+              
+              <Card className="text-center p-6 hover:shadow-medium transition-all duration-300">
+                <div className="h-16 flex items-center justify-center mb-4">
+                  <span className="text-2xl font-bold text-blue-600">HP</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Innovation & Fiabilité</p>
+                <p className="text-xs text-muted-foreground">Technologies avancées</p>
+              </Card>
+              
+              <Card className="text-center p-6 hover:shadow-medium transition-all duration-300">
+                <div className="h-16 flex items-center justify-center mb-4">
+                  <span className="text-2xl font-bold text-blue-800">Epson</span>
+                </div>
+                <p className="text-sm text-muted-foreground">EcoTank Révolutionnaire</p>
+                <p className="text-xs text-muted-foreground">Économies d'encre</p>
+              </Card>
+              
+              <Card className="text-center p-6 hover:shadow-medium transition-all duration-300">
+                <div className="h-16 flex items-center justify-center mb-4">
+                  <span className="text-2xl font-bold text-gray-800">Brother</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Robustesse Garantie</p>
+                <p className="text-xs text-muted-foreground">Usage intensif</p>
+              </Card>
+            </div>
+            
+            <div className="text-center mt-8">
+              <div className="bg-gradient-subtle p-6 rounded-lg max-w-4xl mx-auto">
+                <h3 className="text-xl font-semibold mb-4">🏆 Distributeur Officiel Agréé</h3>
+                <p className="text-muted-foreground">
+                  En tant que partenaire officiel, nous garantissons l'authenticité de tous nos produits 
+                  et respectons les standards de qualité internationaux. Garantie constructeur complète incluse.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Service Guarantee */}
+        <section className="py-16 bg-primary text-primary-foreground">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Notre Engagement Service</h2>
+              <p className="text-xl opacity-90">Des garanties qui vous protègent vraiment</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 transition-all">
+                <CardContent className="pt-6 text-center">
+                  <Shield className="h-12 w-12 mx-auto mb-4 text-success" />
+                  <h3 className="font-semibold mb-2">Garantie 1 An</h3>
+                  <p className="text-sm opacity-90">Garantie constructeur complète + support technique gratuit</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 transition-all">
+                <CardContent className="pt-6 text-center">
+                  <Truck className="h-12 w-12 mx-auto mb-4 text-accent" />
+                  <h3 className="font-semibold mb-2">Livraison Sécurisée</h3>
+                  <p className="text-sm opacity-90">Emballage professionnel et assurance transport</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 transition-all">
+                <CardContent className="pt-6 text-center">
+                  <Phone className="h-12 w-12 mx-auto mb-4 text-warning" />
+                  <h3 className="font-semibold mb-2">Support 24/7</h3>
+                  <p className="text-sm opacity-90">Assistance technique par téléphone, même le weekend</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 transition-all">
+                <CardContent className="pt-6 text-center">
+                  <CheckCircle className="h-12 w-12 mx-auto mb-4 text-success" />
+                  <h3 className="font-semibold mb-2">Satisfaction 100%</h3>
+                  <p className="text-sm opacity-90">30 jours pour changer d'avis, remboursement intégral</p>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="text-center mt-12">
+              <Button onClick={handleCall} className="btn-call bg-white text-primary hover:bg-gray-100">
+                <Phone className="h-4 w-4 mr-2" />
+                Découvrez tous nos services
+              </Button>
+            </div>
+          </div>
+        </section>
+
         <ContactSection />
       </main>
       <Footer />

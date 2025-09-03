@@ -156,6 +156,9 @@ const Footer = () => {
             <p>&copy; {currentYear} Tsena Imprimante sy ny tontolony eto Madagasikara. Misaotra.</p>
           </div>
           <div className="flex gap-6">
+            <a href="/blog" className="hover:text-accent-light transition-colors">
+              Blog & Actualités
+            </a>
             <a href="/privacy" className="hover:text-accent-light transition-colors">
               Politique de confidentialité
             </a>
