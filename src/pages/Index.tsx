@@ -29,7 +29,7 @@ const Index = () => {
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Vente d\'imprimantes Canon, HP, Epson, Brother à Madagascar. Jet d\'encre, laser, réservoir. Livraison province, installation gratuite Tana. Devis gratuit ☎ 033 71 063 34'
+        'Vente d\'imprimantes Canon, HP, Epson, Brother à Madagascar. Jet d\'encre, laser, EcoTank. Livraison province, installation gratuite Tana. Devis gratuit ☎ 033 71 063 34'
       );
     }
   }, []);
@@ -64,7 +64,7 @@ const Index = () => {
   const printerTypes = [
     {
       icon: <Zap className="h-6 w-6 text-accent" />,
-      name: "Réservoir d'encre",
+      name: "EcoTank",
       description: "Très économique, idéal pour gros volumes",
       price: "À partir de 690 000 MGA",
       popular: true
@@ -191,7 +191,7 @@ const Index = () => {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                      <span><strong>Réservoir:</strong> ~0.02 MGA/page couleur</span>
+                      <span><strong>EcoTank:</strong> ~0.02 MGA/page couleur</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />

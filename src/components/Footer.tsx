@@ -50,7 +50,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm opacity-80">
               <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Imprimantes Jet d'encre</a></li>
               <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Imprimantes Laser</a></li>
-              <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Système Réservoir</a></li>
+              <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Système EcoTank</a></li>
               <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Multifonctions</a></li>
               <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Consommables</a></li>
               <li><a href="#catalogue" className="hover:text-accent-light transition-colors">Accessoires</a></li>

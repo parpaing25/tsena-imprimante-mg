@@ -69,7 +69,7 @@ const HeroSection = () => {
               <p className="text-base sm:text-lg mb-8 opacity-80 max-w-2xl animate-slide-in-up" style={{
               animationDelay: '0.6s'
             }}>
-                Canon, HP, Epson, Brother • Jet d'encre, Laser, Réservoir • 
+                Canon, HP, Epson, Brother • Jet d'encre, Laser, EcoTank • 
                 Livraison province • Installation GRATUITE à Tana
               </p>
             </div>

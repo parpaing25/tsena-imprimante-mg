@@ -163,7 +163,7 @@ const ProductCatalog = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tous les types</SelectItem>
-                    <SelectItem value="tank">Réservoir</SelectItem>
+                    <SelectItem value="tank">EcoTank</SelectItem>
                     <SelectItem value="laser">Laser</SelectItem>
                     <SelectItem value="inkjet">Jet d'encre</SelectItem>
                   </SelectContent>

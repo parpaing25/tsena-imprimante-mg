@@ -54,7 +54,7 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
   const getTypeLabel = () => {
     switch (product.type) {
       case 'tank':
-        return 'Réservoir';
+        return 'EcoTank';
       case 'laser':
         return 'Laser';
       case 'inkjet':

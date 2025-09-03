@@ -69,7 +69,7 @@ const ProductDetailModal = ({ product, isOpen, onClose, onRequestQuote }: Produc
   const getTypeLabel = () => {
     switch (product.type) {
       case 'tank':
-        return 'Système réservoir';
+        return 'Système EcoTank';
       case 'laser':
         return 'Technologie laser';
       case 'inkjet':

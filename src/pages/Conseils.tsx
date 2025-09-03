@@ -74,7 +74,7 @@ const Conseils = () => {
                     <Badge variant="outline">HP DeskJet 2720</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    <strong>Notre conseil :</strong> Privilégiez les imprimantes à réservoir 
+                    <strong>Notre conseil :</strong> Privilégiez les imprimantes à EcoTank 
                     pour réduire les coûts d'impression si vous imprimez régulièrement.
                   </p>
                 </CardContent>
@@ -105,7 +105,7 @@ const Conseils = () => {
                     <Badge variant="outline">Epson EcoTank L3210</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    <strong>Notre conseil :</strong> Les systèmes à réservoir sont idéaux ! 
+                    <strong>Notre conseil :</strong> Les systèmes EcoTank sont idéaux ! 
                     Coût par page très bas, parfait pour les gros volumes.
                   </p>
                 </CardContent>
@@ -180,7 +180,7 @@ const Conseils = () => {
               <Card>
                 <CardHeader>
                   <Zap className="h-8 w-8 text-green-600 mb-2" />
-                  <CardTitle>Système Réservoir</CardTitle>
+                  <CardTitle>Système EcoTank</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm text-muted-foreground">
@@ -264,7 +264,7 @@ const Conseils = () => {
                   <div className="p-3 bg-muted rounded-lg">
                     <p className="text-xs text-muted-foreground">
                       <strong>Exemple :</strong> Une imprimante à 400 000 MGA avec cartouches à 50 000 MGA 
-                      peut coûter plus cher qu'une à réservoir de 800 000 MGA sur 2 ans !
+                      peut coûter plus cher qu'une EcoTank de 800 000 MGA sur 2 ans !
                     </p>
                   </div>
                 </CardContent>
@@ -328,7 +328,7 @@ const Conseils = () => {
                 <CardContent className="space-y-3">
                   <div className="text-2xl font-bold text-primary">860 000 MGA</div>
                   <p className="text-sm text-muted-foreground">
-                    Système réservoir, parfait pour familles et étudiants
+                    Système EcoTank, parfait pour familles et étudiants
                   </p>
                   <ul className="text-xs space-y-1">
                     <li>✅ Très économique à l'usage</li>
