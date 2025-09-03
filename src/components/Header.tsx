@@ -43,12 +43,12 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-4">
+          <nav className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
             {navigation.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium transition-colors hover:text-primary whitespace-nowrap"
+                className="text-base font-semibold transition-colors hover:text-primary whitespace-nowrap px-4 py-2 rounded-md hover:bg-accent/10"
               >
                 {item.name}
               </a>
