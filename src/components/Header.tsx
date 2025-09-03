@@ -12,7 +12,7 @@ const Header = () => {
     { name: "Catalogue", href: "#catalogue" },
     { name: "Conseils", href: "/conseils" },
     { name: "FAQ", href: "/faq" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "#contact" },
   ];
 
   const handleCall = () => {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductCatalog from "@/components/ProductCatalog";
+import ContactSection from "@/components/ContactSection";
 import QuoteForm from "@/components/QuoteForm";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -250,6 +251,8 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        <ContactSection />
 
         <QuoteForm />
       </main>
