@@ -23,7 +23,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Antsirabe",
     distance: 170,
     planeRate: 40000,
-    taxiBrousseRate: 45000,
+    taxiBrousseRate: 20000, // Lite class
     rapidServiceBaseRate: Math.ceil(170 / 100) * 1200, // 2 tranches de 100km
     estimatedDays: "2-3 jours"
   },
@@ -31,7 +31,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Fianarantsoa",
     distance: 410,
     planeRate: 40000,
-    taxiBrousseRate: 42000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000 (au lieu de 45.000 Lite)
     rapidServiceBaseRate: Math.ceil(410 / 100) * 1200, // 5 tranches de 100km
     estimatedDays: "3-5 jours"
   },
@@ -39,7 +39,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Toamasina",
     distance: 370,
     planeRate: 40000,
-    taxiBrousseRate: 75000,
+    taxiBrousseRate: 40000, // Lite class
     rapidServiceBaseRate: Math.ceil(370 / 100) * 1200, // 4 tranches de 100km
     estimatedDays: "3-5 jours"
   },
@@ -47,7 +47,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Mahajanga",
     distance: 553,
     planeRate: 40000,
-    taxiBrousseRate: 65000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000 (au lieu de 70.000 Lite)
     rapidServiceBaseRate: Math.ceil(553 / 100) * 1200, // 6 tranches de 100km
     estimatedDays: "4-6 jours"
   },
@@ -55,7 +55,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Toliara",
     distance: 950,
     planeRate: 40000,
-    taxiBrousseRate: 100000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000 (au lieu de 110.000 Premium)
     rapidServiceBaseRate: Math.ceil(950 / 100) * 1200, // 10 tranches de 100km
     estimatedDays: "5-7 jours"
   },
@@ -63,7 +63,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Antsiranana",
     distance: 1100,
     planeRate: 40000,
-    taxiBrousseRate: 205000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000 (au lieu de 155.000 Premium)
     rapidServiceBaseRate: Math.ceil(1100 / 100) * 1200, // 11 tranches de 100km
     estimatedDays: "4-6 jours"
   },
@@ -71,7 +71,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Morondava",
     distance: 700,
     planeRate: 40000,
-    taxiBrousseRate: 70000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000 (au lieu de 70.000)
     rapidServiceBaseRate: Math.ceil(700 / 100) * 1200, // 7 tranches de 100km
     estimatedDays: "5-7 jours"
   },
@@ -79,7 +79,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Sambava",
     distance: 800,
     planeRate: 40000,
-    taxiBrousseRate: 180000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000
     rapidServiceBaseRate: Math.ceil(800 / 100) * 1200, // 8 tranches de 100km
     estimatedDays: "6-8 jours"
   },
@@ -87,7 +87,7 @@ export const deliveryRates: DeliveryRate[] = [
     region: "Autre région",
     distance: 500,
     planeRate: 40000,
-    taxiBrousseRate: 75000,
+    taxiBrousseRate: 40000, // Plafonné à 40.000
     rapidServiceBaseRate: Math.ceil(500 / 100) * 1200, // 5 tranches de 100km
     estimatedDays: "4-7 jours (selon localisation)"
   }
