@@ -104,9 +104,9 @@ export class PDFGenerator {
     pdf.setFontSize(9);
     pdf.setFont('helvetica', 'bold');
     pdf.text('DESCRIPTION', 25, currentY + 5);
-    pdf.text('QTÉ', 130, currentY + 5);
-    pdf.text('PRIX UNIT.', 145, currentY + 5);
-    pdf.text('TOTAL', 175, currentY + 5, { align: 'right' });
+    pdf.text('QTÉ', 125, currentY + 5, { align: 'center' });
+    pdf.text('PRIX UNIT.', 145, currentY + 5, { align: 'center' });
+    pdf.text('TOTAL', 175, currentY + 5, { align: 'center' });
     
     currentY += 10;
     
@@ -117,26 +117,36 @@ export class PDFGenerator {
     products.forEach((item) => {
       // Nom du produit
       pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(9);
       pdf.text(item.product.name, 25, currentY + 4);
       currentY += 6;
       
       // Description
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
-      const description = `${item.product.brand} • ${item.product.type} • ${item.product.features.slice(0, 2).join(', ')}`;
+      const description = `${item.product.brand} • ${item.product.type} • ${item.product.weight}kg`;
       pdf.text(description, 25, currentY + 2);
-      currentY += 4;
+      currentY += 6;
       
-      // Quantité, prix unitaire, total
+      // Quantité, prix unitaire, total avec un meilleur alignement
       pdf.setFontSize(9);
-      pdf.text(item.quantity.toString(), 130, currentY - 4);
-      pdf.text(`${formatPrice(item.unitPrice)} MGA`, 145, currentY - 4);
-      pdf.text(`${formatPrice(item.total)} MGA`, 185, currentY - 4, { align: 'right' });
+      pdf.setFont('helvetica', 'normal');
+      
+      // Quantité centrée
+      pdf.text(item.quantity.toString(), 125, currentY - 2, { align: 'center' });
+      
+      // Prix unitaire avec formatage amélioré
+      const unitPriceFormatted = formatPrice(item.unitPrice);
+      pdf.text(`${unitPriceFormatted}`, 145, currentY - 2, { align: 'center' });
+      
+      // Total avec formatage amélioré
+      const totalFormatted = formatPrice(item.total);
+      pdf.text(`${totalFormatted}`, 175, currentY - 2, { align: 'center' });
       
       // Ligne de séparation
       pdf.setDrawColor(200, 200, 200);
       pdf.setLineWidth(0.1);
-      pdf.line(20, currentY, 190, currentY);
+      pdf.line(20, currentY + 2, 190, currentY + 2);
       currentY += 8;
     });
     
@@ -154,7 +164,16 @@ export class PDFGenerator {
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0, 0, 0);
     pdf.text(`${invoiceData.customer.region} - ${deliveryRate.estimatedDays}`, 25, y + 7);
-    pdf.text(`Type: ${invoiceData.deliveryType === 'express' ? 'Express' : 'Standard'}`, 25, y + 14);
+    
+    // Map delivery type to readable name
+    const deliveryTypeNames = {
+      'local-tana': 'Livraison locale Tana',
+      'plane': 'Par avion',
+      'taxi-brousse': 'Taxi-brousse', 
+      'rapid-service': 'Service rapide'
+    };
+    
+    pdf.text(`Type: ${deliveryTypeNames[invoiceData.deliveryType]}`, 25, y + 14);
     
     pdf.text(`${formatPrice(invoiceData.deliveryPrice)} MGA`, 185, y + 7, { align: 'right' });
     
@@ -162,29 +181,33 @@ export class PDFGenerator {
   }
 
   private static addTotals(pdf: jsPDF, invoiceData: InvoiceData, y: number) {
-    const rightAlign = 185;
+    const rightAlign = 175;
     
     // Sous-total
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
-    pdf.text('Sous-total:', 140, y);
-    pdf.text(`${formatPrice(invoiceData.subtotal)} MGA`, rightAlign, y, { align: 'right' });
+    pdf.setTextColor(0, 0, 0);
+    pdf.text('Sous-total:', 120, y);
+    const subtotalFormatted = formatPrice(invoiceData.subtotal);
+    pdf.text(`${subtotalFormatted} MGA`, rightAlign, y, { align: 'center' });
     
     // Livraison
-    pdf.text('Livraison:', 140, y + 8);
-    pdf.text(`${formatPrice(invoiceData.deliveryPrice)} MGA`, rightAlign, y + 8, { align: 'right' });
+    pdf.text('Livraison:', 120, y + 8);
+    const deliveryFormatted = formatPrice(invoiceData.deliveryPrice);
+    pdf.text(`${deliveryFormatted} MGA`, rightAlign, y + 8, { align: 'center' });
     
     // Ligne de séparation
     pdf.setDrawColor(44, 82, 130);
     pdf.setLineWidth(0.5);
-    pdf.line(140, y + 12, 185, y + 12);
+    pdf.line(120, y + 12, 185, y + 12);
     
     // Total
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(220, 38, 127);
-    pdf.text('TOTAL:', 140, y + 20);
-    pdf.text(`${formatPrice(invoiceData.total)} MGA`, rightAlign, y + 20, { align: 'right' });
+    pdf.text('TOTAL:', 120, y + 20);
+    const totalFormatted = formatPrice(invoiceData.total);
+    pdf.text(`${totalFormatted} MGA`, rightAlign, y + 20, { align: 'center' });
   }
 
   private static addFooter(pdf: jsPDF, invoiceData: InvoiceData) {
