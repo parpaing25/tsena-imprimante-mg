@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductCatalog from "@/components/ProductCatalog";
 import ContactSection from "@/components/ContactSection";
-import QuoteForm from "@/components/ProformaQuoteForm";
+import QuoteForm from "@/components/QuoteForm";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
