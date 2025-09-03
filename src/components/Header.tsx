@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle, Menu, X, Printer } from "lucide-react";
+import { Phone, MessageCircle, Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import tsenaLogo from "@/assets/tsena-logo.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +29,8 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-primary">
-              <Printer className="h-6 w-6 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden bg-white">
+              <img src={tsenaLogo} alt="Tsena Imprimante" className="h-8 w-8 object-contain" />
             </div>
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-primary">Tsena Imprimante</h1>
