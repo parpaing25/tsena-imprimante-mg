@@ -317,7 +317,7 @@ const Conseils = () => {
 
           {/* Nos Recommandations Top */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">Nos Recommandations 2024</h2>
+            <h2 className="text-3xl font-bold text-center mb-8">Nos Recommandations 2025</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               
               <Card className="border-2 border-primary">
