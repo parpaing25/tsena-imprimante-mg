@@ -312,10 +312,19 @@ const QuoteForm = () => {
                 </div>
 
                 {/* Submit */}
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Button 
+                    type="button"
+                    onClick={handleCall}
+                    className="btn-call w-full"
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Appeler Direct
+                  </Button>
+                  
                   <Button 
                     type="submit" 
-                    className="btn-hero flex-1"
+                    className="btn-hero w-full"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -329,15 +338,6 @@ const QuoteForm = () => {
                         Envoyer la Demande
                       </>
                     )}
-                  </Button>
-                  
-                  <Button 
-                    type="button"
-                    onClick={handleCall}
-                    className="btn-call sm:flex-none"
-                  >
-                    <Phone className="h-4 w-4 mr-2" />
-                    Ou Appeler Direct
                   </Button>
                 </div>
 
