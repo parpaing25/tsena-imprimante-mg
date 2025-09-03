@@ -70,7 +70,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 animate-slide-in-up" style={{
             animationDelay: '0.8s'
           }}>
-              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-xs sm:text-lg px-4 py-3 sm:px-8 sm:py-6 shadow-glow animate-pulse-glow" size="sm">
+              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-xs sm:text-lg px-2 py-3 sm:px-4 sm:py-6 shadow-glow animate-pulse-glow" size="sm">
                 <Phone className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
                 <span className="sm:hidden">Appeler</span>
                 <span className="hidden sm:inline">Appeler 033 71 063 34</span>
