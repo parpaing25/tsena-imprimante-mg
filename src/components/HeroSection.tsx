@@ -119,7 +119,7 @@ const HeroSection = () => {
                   {featuredProducts.map(product => <CarouselItem key={product.id}>
                       <div className="flex flex-col items-center text-center text-white p-2 space-y-3">
                         <div className="relative group">
-                          <img src={product.imageUrl} alt={product.name} className="w-60 h-40 sm:w-64 sm:h-44 object-contain rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
+                          <img src={product.imageUrl} alt={product.name} className="w-64 h-36 sm:w-68 sm:h-40 object-contain rounded-3xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
                         e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                       }} />
                           <div className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce-in">
