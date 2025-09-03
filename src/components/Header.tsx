@@ -48,9 +48,10 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-base font-semibold transition-all duration-200 hover:text-primary whitespace-nowrap px-4 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent/10 hover:shadow-sm"
+                className="text-base font-semibold transition-all duration-300 hover:text-primary whitespace-nowrap px-4 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent/10 hover:shadow-lg hover-scale animate-fade-in relative overflow-hidden group"
               >
-                {item.name}
+                <span className="relative z-10">{item.name}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </a>
             ))}
           </nav>
