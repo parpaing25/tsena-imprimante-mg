@@ -113,50 +113,50 @@ export class PDFGenerator {
       // Si le logo n'est pas disponible, continuer sans
     }
     
-    pdf.setFontSize(24);
+    pdf.setFontSize(22);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(44, 82, 130); // Couleur primaire
-    pdf.text('TSENA IMPRIMANTE', 40, 30); // Décalé pour laisser place au logo
+    pdf.text('TSENA IMPRIMANTE', 40, 28); // Décalé pour laisser place au logo
     
-    pdf.setFontSize(10);
+    pdf.setFontSize(9);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(100, 100, 100);
-    pdf.text('Votre partenaire imprimante eto Madagasikara', 40, 38);
-    pdf.text('033 71 063 34 | Facebook: TsenaImprimante', 40, 45);
+    pdf.text('Votre partenaire imprimante eto Madagasikara', 40, 36);
+    pdf.text('033 71 063 34 | Facebook: TsenaImprimante', 40, 42);
     
     // Ligne de séparation
     pdf.setDrawColor(44, 82, 130);
     pdf.setLineWidth(0.5);
-    pdf.line(20, 50, 190, 50);
+    pdf.line(20, 48, 190, 48);
   }
 
   private static addInvoiceInfo(pdf: jsPDF, invoiceData: InvoiceData) {
     const rightAlign = 190;
     
-    pdf.setFontSize(18);
+    pdf.setFontSize(16);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(220, 38, 127); // Couleur accent
-    pdf.text('FACTURE PROFORMA', rightAlign, 30, { align: 'right' });
+    pdf.text('FACTURE PROFORMA', rightAlign, 28, { align: 'right' });
     
-    pdf.setFontSize(10);
+    pdf.setFontSize(9);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0, 0, 0);
-    pdf.text(`N° ${invoiceData.quoteNumber}`, rightAlign, 40, { align: 'right' });
-    pdf.text(`Date: ${invoiceData.date}`, rightAlign, 47, { align: 'right' });
-    pdf.text(`Valable jusqu'au: ${invoiceData.validUntil}`, rightAlign, 54, { align: 'right' });
+    pdf.text(`N° ${invoiceData.quoteNumber}`, rightAlign, 36, { align: 'right' });
+    pdf.text(`Date: ${invoiceData.date}`, rightAlign, 42, { align: 'right' });
+    pdf.text(`Valable jusqu'au: ${invoiceData.validUntil}`, rightAlign, 48, { align: 'right' });
   }
 
   private static addCustomerInfo(pdf: jsPDF, customer: InvoiceData['customer']) {
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(44, 82, 130);
-    pdf.text('FACTURÉ À:', 20, 70);
+    pdf.text('FACTURÉ À:', 20, 65);
     
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0, 0, 0);
     
-    let y = 80;
+    let y = 75;
     pdf.text(customer.name, 20, y);
     y += 7;
     
@@ -177,7 +177,7 @@ export class PDFGenerator {
   }
 
   private static addProductsTable(pdf: jsPDF, products: InvoiceData['products']): number {
-    const startY = 120;
+    const startY = 110;
     let currentY = startY;
     
     // En-tête du tableau
@@ -326,11 +326,11 @@ export class PDFGenerator {
     pdf.text('• Garantie constructeur applicable', 20, footerY + 10);
     pdf.text('• Paiement: Espèces, Mobile Money, Virement bancaire', 20, footerY + 15);
     
-    // Misaotra
+    // Misaotra - positionné tout en bas
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(44, 82, 130);
-    pdf.text('Misaotra tompoko!', 150, footerY + 10);
+    pdf.text('Misaotra tompoko!', 150, pageHeight - 10);
   }
 
   static generateInvoice(invoiceData: InvoiceData): jsPDF {
