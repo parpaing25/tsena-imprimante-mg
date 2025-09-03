@@ -113,18 +113,33 @@ ${formData.notes ? `📝 Notes: ${formData.notes}` : ''}
 Commande passée via le site web TSENA`;
 
     try {
-      // Envoyer via WhatsApp Business
-      const whatsappNumber = "261327209033";
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+      // Détecter si on est sur mobile ou desktop
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
-      // Ouvrir WhatsApp avec le message pré-rempli
-      window.open(whatsappUrl, '_blank');
-      
-      toast({
-        title: "Commande envoyée !",
-        description: "Votre commande a été envoyée via WhatsApp. Nous vous contacterons rapidement.",
-      });
+      if (isMobile) {
+        // Sur mobile : envoyer via WhatsApp
+        const whatsappNumber = "261327209033";
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_blank');
+        
+        toast({
+          title: "Message envoyé !",
+          description: "Votre commande a été envoyée via WhatsApp. Nous vous contacterons rapidement.",
+        });
+      } else {
+        // Sur PC : envoyer par email
+        const emailSubject = encodeURIComponent(`Nouvelle commande - ${product.name}`);
+        const emailBody = encodeURIComponent(message);
+        
+        window.open(`mailto:tsenaimprimante@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+        
+        toast({
+          title: "Email ouvert !",
+          description: "Votre client email s'est ouvert avec la commande. Envoyez l'email pour finaliser.",
+        });
+      }
 
       // Reset du formulaire
       setFormData({
