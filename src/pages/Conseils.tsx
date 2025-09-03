@@ -26,6 +26,24 @@ const Conseils = () => {
     window.open("https://m.me/TsenaImprimante", "_blank");
   };
 
+  const handleCommand = (productName: string) => {
+    const message = `Bonjour ! Je souhaite commander l'imprimante ${productName}. Pouvez-vous me donner plus d'informations ?`;
+    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleQuote = (productName: string) => {
+    const message = `Bonjour ! Je souhaite un devis pour l'imprimante ${productName}. Merci !`;
+    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleStock = (productName: string) => {
+    const message = `Bonjour ! Est-ce que l'imprimante ${productName} est disponible en stock ?`;
+    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -336,7 +354,7 @@ const Conseils = () => {
                     <li>✅ Facile à utiliser</li>
                     <li>✅ Garantie 1 an</li>
                   </ul>
-                  <Button className="w-full btn-hero">
+                  <Button className="w-full btn-hero" onClick={() => handleCommand("Canon PIXMA G2470")}>
                     <Phone className="h-4 w-4 mr-2" />
                     Commander maintenant
                   </Button>
@@ -359,7 +377,7 @@ const Conseils = () => {
                     <li>✅ Scan to email</li>
                     <li>✅ Très fiable</li>
                   </ul>
-                  <Button className="w-full btn-hero">
+                  <Button className="w-full btn-hero" onClick={() => handleQuote("Canon MF244dw")}>
                     <Phone className="h-4 w-4 mr-2" />
                     Demander un devis
                   </Button>
@@ -382,7 +400,7 @@ const Conseils = () => {
                     <li>✅ Multifonction de base</li>
                     <li>✅ Idéal débutants</li>
                   </ul>
-                  <Button className="w-full btn-hero">
+                  <Button className="w-full btn-hero" onClick={() => handleStock("Canon MG2545S")}>
                     <Phone className="h-4 w-4 mr-2" />
                     Vérifier stock
                   </Button>
