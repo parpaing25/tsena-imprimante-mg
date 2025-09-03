@@ -137,16 +137,7 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
       </CardContent>
 
       <CardFooter className="pt-4 space-y-2">
-        <div className="grid grid-cols-2 gap-2 w-full">
-          <Button 
-            onClick={handleQuoteRequest}
-            className="btn-hero w-full"
-            disabled={!product.inStock}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Demander un Devis
-          </Button>
-          
+        <div className="grid grid-cols-1 gap-2 w-full">
           <Button 
             onClick={handlePurchase}
             className="btn-call w-full"
@@ -156,14 +147,24 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
             Acheter
           </Button>
           
-          <Button 
-            onClick={handleViewDetails}
-            variant="outline"
-            className="w-full col-span-2"
-            size="sm"
-          >
-            Voir Détails
-          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button 
+              onClick={handleQuoteRequest}
+              className="btn-hero"
+              size="sm"
+              disabled={!product.inStock}
+            >
+              <FileText className="h-4 w-4 mr-1" />
+              Devis
+            </Button>
+            <Button 
+              onClick={handleViewDetails}
+              variant="outline"
+              size="sm"
+            >
+              Détails
+            </Button>
+          </div>
         </div>
       </CardFooter>
 
