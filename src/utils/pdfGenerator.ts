@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import { Product } from '@/data/products';
-import { DeliveryType, deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice } from './deliveryRates';
+import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice } from './deliveryRates';
 
 export interface InvoiceData {
   quoteNumber: string;
@@ -19,22 +19,12 @@ export interface InvoiceData {
     unitPrice: number;
     total: number;
   }[];
-  deliveryType: DeliveryType;
+  deliveryType: 'standard' | 'express';
   deliveryPrice: number;
   subtotal: number;
   total: number;
   notes?: string;
 }
-
-const getDeliveryTypeName = (type: DeliveryType): string => {
-  switch (type) {
-    case 'tana_local': return 'Livraison locale Tana';
-    case 'airplane': return 'Par avion (Madagascar Airlines)';
-    case 'taxi_brousse': return 'Par taxi-brousse';
-    case 'service_rapide': return 'Service rapide (route)';
-    default: return 'Standard';
-  }
-};
 
 export class PDFGenerator {
   private static addHeader(pdf: jsPDF) {
@@ -164,7 +154,7 @@ export class PDFGenerator {
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(0, 0, 0);
     pdf.text(`${invoiceData.customer.region} - ${deliveryRate.estimatedDays}`, 25, y + 7);
-    pdf.text(`Type: ${getDeliveryTypeName(invoiceData.deliveryType)}`, 25, y + 14);
+    pdf.text(`Type: ${invoiceData.deliveryType === 'express' ? 'Express' : 'Standard'}`, 25, y + 14);
     
     pdf.text(`${formatPrice(invoiceData.deliveryPrice)} MGA`, 185, y + 7, { align: 'right' });
     

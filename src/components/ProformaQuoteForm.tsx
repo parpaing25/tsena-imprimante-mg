@@ -1,214 +1,487 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Product } from '@/data/products';
-import { DeliveryType, deliveryOptions, calculateDeliveryPrice, formatPrice } from '@/utils/deliveryRates';
-import { PDFGenerator, InvoiceData } from '@/utils/pdfGenerator';
-import { toast } from 'sonner';
+import { useState, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { 
+  Phone, 
+  Mail, 
+  Building, 
+  MapPin, 
+  FileText, 
+  Send, 
+  Download,
+  MessageCircle,
+  Plus,
+  Minus,
+  Truck,
+  Clock
+} from "lucide-react";
+import { products, Product, formatPrice as formatProductPrice } from "@/data/products";
+import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice } from "@/utils/deliveryRates";
+import { PDFGenerator, InvoiceData } from "@/utils/pdfGenerator";
+import jsPDF from 'jspdf';
+import { toast } from "sonner";
 
-interface ProformaQuoteFormProps {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedProduct?: Product;
-}
-
-interface CartItem {
+interface SelectedProduct {
   product: Product;
   quantity: number;
 }
 
-const ProformaQuoteForm: React.FC<ProformaQuoteFormProps> = ({
-  isOpen,
-  onClose,
-  selectedProduct
-}) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [customerData, setCustomerData] = useState({
+interface QuoteFormData {
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+  region: string;
+  selectedProducts: SelectedProduct[];
+  deliveryType: 'standard' | 'express';
+  message: string;
+}
+
+const ProformaQuoteForm = () => {
+  const [formData, setFormData] = useState<QuoteFormData>({
     name: '',
     company: '',
     phone: '',
     email: '',
-    region: ''
+    region: '',
+    selectedProducts: [],
+    deliveryType: 'standard',
+    message: ''
   });
-  const [deliveryType, setDeliveryType] = useState<DeliveryType>('taxi_brousse');
-  const [distanceKm, setDistanceKm] = useState(3);
-  const [notes, setNotes] = useState('');
 
-  useEffect(() => {
-    if (selectedProduct && isOpen) {
-      const existingItem = cart.find(item => item.product.id === selectedProduct.id);
-      if (existingItem) {
-        setCart(cart.map(item =>
-          item.product.id === selectedProduct.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ));
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [generatedPdf, setGeneratedPdf] = useState<jsPDF | null>(null);
+
+  const regions = deliveryRates.map(rate => rate.region);
+
+  const handleCall = () => {
+    window.location.href = "tel:+261337106334";
+  };
+
+  const handleWhatsApp = (message: string) => {
+    const whatsappUrl = `https://wa.me/261337106334?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^(032|033|034|038)\s?\d{2}\s?\d{3}\s?\d{2}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  };
+
+  const toggleProductSelection = (product: Product) => {
+    setFormData(prev => {
+      const existingIndex = prev.selectedProducts.findIndex(p => p.product.id === product.id);
+      
+      if (existingIndex >= 0) {
+        // Remove product
+        return {
+          ...prev,
+          selectedProducts: prev.selectedProducts.filter(p => p.product.id !== product.id)
+        };
       } else {
-        setCart([...cart, { product: selectedProduct, quantity: 1 }]);
+        // Add product with quantity 1
+        return {
+          ...prev,
+          selectedProducts: [...prev.selectedProducts, { product, quantity: 1 }]
+        };
       }
-    }
-  }, [selectedProduct, isOpen]);
-
-  const updateQuantity = (productId: string, quantity: number) => {
-    if (quantity === 0) {
-      setCart(cart.filter(item => item.product.id !== productId));
-    } else {
-      setCart(cart.map(item =>
-        item.product.id === productId
-          ? { ...item, quantity }
-          : item
-      ));
-    }
+    });
   };
 
-  const calculateSubtotal = () => {
-    return cart.reduce((total, item) => total + (item.product.priceMin * item.quantity), 0);
-  };
-
-  const calculateTotalWeight = () => {
-    return cart.reduce((total, item) => total + (item.product.weight * item.quantity), 0);
-  };
-
-  const calculateDeliveryTotal = () => {
-    if (cart.length === 0) return 0;
-    const totalWeight = calculateTotalWeight();
-    return calculateDeliveryPrice(customerData.region, totalWeight, deliveryType, distanceKm);
-  };
-
-  const calculateTotal = () => {
-    return calculateSubtotal() + calculateDeliveryTotal();
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const updateProductQuantity = (productId: string, quantity: number) => {
+    if (quantity < 1) return;
     
-    if (cart.length === 0) {
-      toast.error('Veuillez ajouter au moins un produit');
+    setFormData(prev => ({
+      ...prev,
+      selectedProducts: prev.selectedProducts.map(item =>
+        item.product.id === productId ? { ...item, quantity } : item
+      )
+    }));
+  };
+
+  const calculateTotals = useMemo(() => {
+    const subtotal = formData.selectedProducts.reduce((sum, item) => {
+      return sum + (item.product.priceMin * item.quantity);
+    }, 0);
+
+    const totalWeight = formData.selectedProducts.reduce((weight, item) => {
+      // Estimation du poids basée sur le type d'imprimante
+      const estimatedWeight = item.product.type === 'laser' ? 15 : 8;
+      return weight + (estimatedWeight * item.quantity);
+    }, 0);
+
+    const deliveryPrice = formData.region ? 
+      calculateDeliveryPrice(formData.region, totalWeight, formData.deliveryType === 'express') : 0;
+
+    const total = subtotal + deliveryPrice;
+
+    return { subtotal, deliveryPrice, total, totalWeight };
+  }, [formData.selectedProducts, formData.region, formData.deliveryType]);
+
+  const generateProformaInvoice = () => {
+    if (formData.selectedProducts.length === 0) {
+      toast.error("Veuillez sélectionner au moins un produit");
       return;
     }
 
-    if (!customerData.name || !customerData.phone || !customerData.region) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
+    if (!formData.name || !formData.phone || !formData.region) {
+      toast.error("Veuillez remplir les champs obligatoires");
       return;
     }
 
-    const quoteNumber = PDFGenerator.generateQuoteNumber();
-    const currentDate = new Date().toLocaleDateString('fr-FR');
-    const validUntilDate = new Date();
-    validUntilDate.setMonth(validUntilDate.getMonth() + 1);
+    if (!validatePhone(formData.phone)) {
+      toast.error("Numéro de téléphone invalide");
+      return;
+    }
 
     const invoiceData: InvoiceData = {
-      quoteNumber,
-      date: currentDate,
-      validUntil: validUntilDate.toLocaleDateString('fr-FR'),
-      customer: customerData,
-      products: cart.map(item => ({
+      quoteNumber: PDFGenerator.generateQuoteNumber(),
+      date: new Date().toLocaleDateString('fr-FR'),
+      validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR'),
+      customer: {
+        name: formData.name,
+        company: formData.company,
+        phone: formData.phone,
+        email: formData.email,
+        region: formData.region
+      },
+      products: formData.selectedProducts.map(item => ({
         product: item.product,
         quantity: item.quantity,
         unitPrice: item.product.priceMin,
         total: item.product.priceMin * item.quantity
       })),
-      deliveryType,
-      deliveryPrice: calculateDeliveryTotal(),
-      subtotal: calculateSubtotal(),
-      total: calculateTotal(),
-      notes
+      deliveryType: formData.deliveryType,
+      deliveryPrice: calculateTotals.deliveryPrice,
+      subtotal: calculateTotals.subtotal,
+      total: calculateTotals.total,
+      notes: formData.message
     };
 
-    try {
-      const pdf = PDFGenerator.generateInvoice(invoiceData);
-      pdf.save(`Facture_Proforma_${quoteNumber}.pdf`);
-      toast.success('Facture proforma générée avec succès!');
-      
-      setCart([]);
-      setCustomerData({ name: '', company: '', phone: '', email: '', region: '' });
-      setDeliveryType('taxi_brousse');
-      setNotes('');
-      onClose();
-    } catch (error) {
-      console.error('Erreur lors de la génération du PDF:', error);
-      toast.error('Erreur lors de la génération de la facture');
+    const pdf = PDFGenerator.generateInvoice(invoiceData);
+    setGeneratedPdf(pdf);
+
+    toast.success("Facture proforma générée !", {
+      description: "Vous pouvez maintenant la télécharger ou l'envoyer par WhatsApp."
+    });
+  };
+
+  const downloadPdf = () => {
+    if (generatedPdf) {
+      generatedPdf.save(`Facture-Proforma-${formData.name.replace(/\s+/g, '-')}.pdf`);
+      toast.success("Facture téléchargée !");
     }
   };
 
-  const regions = [
-    'Antananarivo', 'Antsirabe', 'Fianarantsoa', 'Toamasina', 'Mahajanga',
-    'Toliara', 'Antsiranana', 'Morondava', 'Sambava', 'Autre région'
-  ];
+  const sendViaWhatsApp = () => {
+    if (generatedPdf) {
+      const message = `Salut ! Voici ma demande de devis pour les imprimantes sélectionnées:\n\n` +
+        `Nom: ${formData.name}\n` +
+        `Téléphone: ${formData.phone}\n` +
+        `Région: ${formData.region}\n\n` +
+        `Produits:\n${formData.selectedProducts.map(item => 
+          `- ${item.product.name} (Qté: ${item.quantity})`
+        ).join('\n')}\n\n` +
+        `Total estimé: ${formatPrice(calculateTotals.total)} MGA\n\n` +
+        `Je souhaiterais recevoir la facture proforma officielle par email ou WhatsApp. Merci !`;
+
+      handleWhatsApp(message);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    generateProformaInvoice();
+  };
+
+  const deliveryInfo = formData.region ? getDeliveryRate(formData.region) : null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Facture Proforma - Devis</DialogTitle>
-        </DialogHeader>
+    <section id="devis" className="py-16 bg-background">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-primary mb-4">
+            Demander une Facture Proforma
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Sélectionnez vos produits et obtenez une facture proforma professionnelle en PDF
+            avec calcul automatique des frais de livraison.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="name">Nom complet *</Label>
-              <Input
-                id="name"
-                value={customerData.name}
-                onChange={(e) => setCustomerData({ ...customerData, name: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="region">Région *</Label>
-              <Select value={customerData.region} onValueChange={(value) => setCustomerData({ ...customerData, region: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner la région" />
-                </SelectTrigger>
-                <SelectContent>
-                  {regions.map((region) => (
-                    <SelectItem key={region} value={region}>
-                      {region}
-                    </SelectItem>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {/* Sélection des produits */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Sélectionnez vos produits</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Informations client */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nom complet *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Votre nom"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Entreprise/École</Label>
+                    <Input
+                      id="company"
+                      value={formData.company}
+                      onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+                      placeholder="Nom de votre entreprise (optionnel)"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Téléphone *</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                      placeholder="033 XX XXX XX"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="votre@email.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="region">Région/Ville *</Label>
+                    <Select value={formData.region} onValueChange={(value) => 
+                      setFormData(prev => ({ ...prev, region: value }))
+                    }>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionnez" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {regions.map(region => (
+                          <SelectItem key={region} value={region}>{region}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Livraison */}
+                <div className="space-y-2">
+                  <Label>Type de livraison</Label>
+                  <div className="flex gap-4">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="deliveryType"
+                        value="standard"
+                        checked={formData.deliveryType === 'standard'}
+                        onChange={(e) => setFormData(prev => ({ ...prev, deliveryType: e.target.value as 'standard' | 'express' }))}
+                      />
+                      <span>Standard</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="deliveryType"
+                        value="express"
+                        checked={formData.deliveryType === 'express'}
+                        onChange={(e) => setFormData(prev => ({ ...prev, deliveryType: e.target.value as 'standard' | 'express' }))}
+                      />
+                      <span>Express</span>
+                    </label>
+                  </div>
+                  {deliveryInfo && (
+                    <p className="text-sm text-muted-foreground">
+                      <Truck className="h-4 w-4 inline mr-1" />
+                      {deliveryInfo.estimatedDays}
+                    </p>
+                  )}
+                </div>
+
+                {/* Produits disponibles */}
+                <div className="space-y-4">
+                  <Label>Produits disponibles</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                    {products.slice(0, 12).map(product => {
+                      const isSelected = formData.selectedProducts.some(p => p.product.id === product.id);
+                      const selectedItem = formData.selectedProducts.find(p => p.product.id === product.id);
+                      
+                      return (
+                        <Card key={product.id} className={`cursor-pointer transition-all ${isSelected ? 'ring-2 ring-primary' : ''}`}>
+                          <CardContent className="p-4">
+                            <div className="flex items-start space-x-3">
+                              <Checkbox
+                                checked={isSelected}
+                                onCheckedChange={() => toggleProductSelection(product)}
+                              />
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-medium text-sm truncate">{product.name}</h4>
+                                <p className="text-xs text-muted-foreground">{product.brand}</p>
+                                <p className="text-sm font-bold text-primary mt-1">
+                                  {formatProductPrice(product.priceMin)} MGA
+                                </p>
+                                {isSelected && selectedItem && (
+                                  <div className="flex items-center gap-2 mt-2">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => updateProductQuantity(product.id, selectedItem.quantity - 1)}
+                                      disabled={selectedItem.quantity <= 1}
+                                    >
+                                      <Minus className="h-3 w-3" />
+                                    </Button>
+                                    <span className="w-8 text-center">{selectedItem.quantity}</span>
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => updateProductQuantity(product.id, selectedItem.quantity + 1)}
+                                    >
+                                      <Plus className="h-3 w-3" />
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="space-y-2">
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                    placeholder="Informations supplémentaires, questions spécifiques..."
+                    rows={3}
+                  />
+                </div>
+
+                {/* Bouton de génération */}
+                <Button 
+                  type="submit" 
+                  className="btn-hero w-full"
+                  disabled={formData.selectedProducts.length === 0 || isSubmitting}
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Générer la Facture Proforma
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Résumé et actions */}
+          <div className="space-y-6">
+            {/* Contact rapide */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Phone className="h-5 w-5 text-success" />
+                  Contact Direct
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Button onClick={handleCall} className="btn-call w-full">
+                  <Phone className="h-4 w-4 mr-2" />
+                  033 71 063 34
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  Appelez-nous pour un devis immédiat et des conseils personnalisés.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Résumé de la commande */}
+            {formData.selectedProducts.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Résumé</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {formData.selectedProducts.map(item => (
+                    <div key={item.product.id} className="flex justify-between text-sm">
+                      <span>{item.product.name} x{item.quantity}</span>
+                      <span>{formatPrice(item.product.priceMin * item.quantity)} MGA</span>
+                    </div>
                   ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+                  
+                  <Separator />
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span>Sous-total:</span>
+                      <span>{formatPrice(calculateTotals.subtotal)} MGA</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Livraison:</span>
+                      <span>{formatPrice(calculateTotals.deliveryPrice)} MGA</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between font-bold text-lg">
+                      <span>Total:</span>
+                      <span className="text-primary">{formatPrice(calculateTotals.total)} MGA</span>
+                    </div>
+                  </div>
 
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Options de livraison</h3>
-            <Select value={deliveryType} onValueChange={(value: DeliveryType) => setDeliveryType(value)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {deliveryOptions.map((option) => (
-                  <SelectItem key={option.type} value={option.type}>
-                    {option.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                  {deliveryInfo && (
+                    <div className="text-xs text-muted-foreground">
+                      <Clock className="h-3 w-3 inline mr-1" />
+                      {deliveryInfo.estimatedDays}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
-          <div className="bg-muted p-4 rounded-lg space-y-2">
-            <div className="flex justify-between font-bold text-lg">
-              <span>TOTAL:</span>
-              <span>{formatPrice(calculateTotal())} MGA TTC</span>
-            </div>
+            {/* Actions PDF */}
+            {generatedPdf && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Facture Générée</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button onClick={downloadPdf} className="w-full btn-hero">
+                    <Download className="h-4 w-4 mr-2" />
+                    Télécharger PDF
+                  </Button>
+                  <Button onClick={sendViaWhatsApp} variant="outline" className="w-full">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Envoyer via WhatsApp
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
-
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Annuler
-            </Button>
-            <Button type="submit">
-              Générer la facture proforma
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </div>
+    </section>
   );
 };
 
