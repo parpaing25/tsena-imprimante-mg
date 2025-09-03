@@ -65,7 +65,7 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-48 object-cover rounded-lg bg-muted"
+            className="w-full h-48 object-contain rounded-lg bg-muted"
             onError={(e) => {
               e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
             }}
