@@ -25,6 +25,7 @@ const PurchaseForm = ({ product, isOpen, onClose }: PurchaseFormProps) => {
     phone: "",
     email: "",
     deliveryType: "", // "pickup" or "delivery"
+    priceOption: "", // "simple" or "withKit"
     address: "",
     city: "",
     district: "",
@@ -54,6 +55,17 @@ const PurchaseForm = ({ product, isOpen, onClose }: PurchaseFormProps) => {
       return;
     }
 
+    // Validation pour le choix de prix si nécessaire
+    if (product.priceMax && !formData.priceOption) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez choisir une option de prix",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     if (formData.deliveryType === "delivery" && (!formData.address || !formData.city)) {
       toast({
         title: "Erreur", 
@@ -66,13 +78,27 @@ const PurchaseForm = ({ product, isOpen, onClose }: PurchaseFormProps) => {
 
     // Préparation du message pour Facebook
     const deliveryInfo = formData.deliveryType === "delivery" 
-      ? `Livraison à: ${formData.address}, ${formData.city}${formData.district ? ', ' + formData.district : ''}`
+      ? `Livraison à: ${formData.address}, ${formData.city}${formData.district ? ", " + formData.district : ""}`
       : "Retrait en magasin";
+
+    // Calcul du prix selon l'option choisie
+    let selectedPrice = product.priceMin;
+    let priceLabel = "";
+    
+    if (product.priceMax && formData.priceOption) {
+      if (formData.priceOption === "simple") {
+        selectedPrice = product.priceMin;
+        priceLabel = " (Prix simple)";
+      } else if (formData.priceOption === "withKit") {
+        selectedPrice = product.priceMax;
+        priceLabel = " (Avec kit externe)";
+      }
+    }
 
     const message = `🛒 NOUVELLE COMMANDE
 
 📱 Produit: ${product.name} (${product.brand})
-💰 Prix: ${product.priceMax ? `${product.priceMin.toLocaleString()} - ${product.priceMax.toLocaleString()}` : `À partir de ${product.priceMin.toLocaleString()}`} MGA
+💰 Prix: ${selectedPrice.toLocaleString()} MGA${priceLabel}
 
 👤 Client:
 Nom: ${formData.firstName} ${formData.lastName}
@@ -106,6 +132,7 @@ Commande passée via le site web TSENA`;
         phone: "",
         email: "",
         deliveryType: "",
+        priceOption: "",
         address: "",
         city: "",
         district: "",
@@ -157,10 +184,51 @@ Commande passée via le site web TSENA`;
                       : `À partir de ${product.priceMin.toLocaleString()} MGA`
                     }
                   </p>
+                  {product.priceMax && (
+                    <p className="text-xs text-muted-foreground">
+                      Prix simple: {product.priceMin.toLocaleString()} MGA • Avec kit: {product.priceMax.toLocaleString()} MGA
+                    </p>
+                  )}
                 </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Options de prix si applicable */}
+          {product.priceMax && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Options de prix</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <RadioGroup
+                  value={formData.priceOption}
+                  onValueChange={(value) => handleInputChange("priceOption", value)}
+                >
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="simple" id="simple" />
+                      <div>
+                        <Label htmlFor="simple" className="font-medium">Prix simple</Label>
+                        <p className="text-sm text-muted-foreground">Imprimante seule</p>
+                      </div>
+                    </div>
+                    <span className="font-bold text-primary">{product.priceMin.toLocaleString()} MGA</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="withKit" id="withKit" />
+                      <div>
+                        <Label htmlFor="withKit" className="font-medium">Avec kit externe</Label>
+                        <p className="text-sm text-muted-foreground">Imprimante + kit complet</p>
+                      </div>
+                    </div>
+                    <span className="font-bold text-primary">{product.priceMax.toLocaleString()} MGA</span>
+                  </div>
+                </RadioGroup>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Informations client */}
           <Card>
