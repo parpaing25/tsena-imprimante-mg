@@ -113,23 +113,28 @@ ${formData.notes ? `📝 Notes: ${formData.notes}` : ''}
 Commande passée via le site web TSENA`;
 
     try {
-      // Préparer l'email
+      // Envoyer directement via WhatsApp Business (plus fiable que Messenger)
+      const whatsappNumber = "261348887766"; // Remplacez par votre numéro WhatsApp Business
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+      
+      // Ouvrir WhatsApp directement avec le message pré-rempli
+      window.open(whatsappUrl, '_blank');
+      
+      // Optionnellement, préparer aussi l'email en backup
       const emailSubject = encodeURIComponent(`Nouvelle commande - ${product.name}`);
       const emailBody = encodeURIComponent(message);
       
-      // Ouvrir le client email avec le message pré-rempli
-      window.open(`mailto:tsenaimprimante@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_self');
-      
-      // Attendre un court délai puis ouvrir Facebook Messenger
+      // Attendre un court délai puis proposer l'email en alternative
       setTimeout(() => {
-        const facebookUrl = `https://www.facebook.com/messages/t/61557419549913`;
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`${facebookUrl}?text=${encodedMessage}`, '_blank');
-      }, 1000);
+        if (confirm("Voulez-vous aussi envoyer par email comme backup ?")) {
+          window.open(`mailto:tsenaimprimante@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+        }
+      }, 2000);
       
       toast({
         title: "Commande envoyée !",
-        description: "Votre commande a été transférée par email et sur notre page Facebook. Nous vous contacterons rapidement.",
+        description: "Votre commande a été envoyée directement via WhatsApp. Nous vous contacterons rapidement.",
       });
 
       // Reset du formulaire
