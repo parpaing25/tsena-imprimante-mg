@@ -20,10 +20,12 @@ import {
   Plus,
   Minus,
   Truck,
-  Clock
+  Clock,
+  Plane,
+  Car
 } from "lucide-react";
 import { products, Product, formatPrice as formatProductPrice } from "@/data/products";
-import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice } from "@/utils/deliveryRates";
+import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice, DeliveryType, getDeliveryOptions } from "@/utils/deliveryRates";
 import { PDFGenerator, InvoiceData } from "@/utils/pdfGenerator";
 import jsPDF from 'jspdf';
 import { toast } from "sonner";
@@ -40,7 +42,8 @@ interface QuoteFormData {
   email: string;
   region: string;
   selectedProducts: SelectedProduct[];
-  deliveryType: 'standard' | 'express';
+  deliveryType: DeliveryType;
+  distanceInTana: number; // Pour livraison locale Tana (0-5km)
   message: string;
 }
 
@@ -52,7 +55,8 @@ const ProformaQuoteForm = () => {
     email: '',
     region: '',
     selectedProducts: [],
-    deliveryType: 'standard',
+    deliveryType: 'taxi-brousse',
+    distanceInTana: 0,
     message: ''
   });
 
@@ -112,18 +116,16 @@ const ProformaQuoteForm = () => {
     }, 0);
 
     const totalWeight = formData.selectedProducts.reduce((weight, item) => {
-      // Estimation du poids basée sur le type d'imprimante
-      const estimatedWeight = item.product.type === 'laser' ? 15 : 8;
-      return weight + (estimatedWeight * item.quantity);
+      return weight + (item.product.weight * item.quantity);
     }, 0);
 
     const deliveryPrice = formData.region ? 
-      calculateDeliveryPrice(formData.region, totalWeight, formData.deliveryType === 'express') : 0;
+      calculateDeliveryPrice(formData.region, totalWeight, formData.deliveryType, formData.distanceInTana) : 0;
 
     const total = subtotal + deliveryPrice;
 
     return { subtotal, deliveryPrice, total, totalWeight };
-  }, [formData.selectedProducts, formData.region, formData.deliveryType]);
+  }, [formData.selectedProducts, formData.region, formData.deliveryType, formData.distanceInTana]);
 
   const generateProformaInvoice = () => {
     if (formData.selectedProducts.length === 0) {
@@ -201,7 +203,17 @@ const ProformaQuoteForm = () => {
     generateProformaInvoice();
   };
 
-  const deliveryInfo = formData.region ? getDeliveryRate(formData.region) : null;
+  const deliveryOptions = formData.region ? getDeliveryOptions(formData.region) : [];
+
+  const getDeliveryIcon = (type: DeliveryType) => {
+    switch (type) {
+      case 'local-tana': return <Car className="h-4 w-4" />;
+      case 'plane': return <Plane className="h-4 w-4" />;
+      case 'taxi-brousse': return <Car className="h-4 w-4" />;
+      case 'rapid-service': return <Truck className="h-4 w-4" />;
+      default: return <Truck className="h-4 w-4" />;
+    }
+  };
 
   return (
     <section id="devis" className="py-16 bg-background">
@@ -212,7 +224,7 @@ const ProformaQuoteForm = () => {
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Sélectionnez vos produits et obtenez une facture proforma professionnelle en PDF
-            avec calcul automatique des frais de livraison.
+            avec calcul automatique des frais de livraison selon le poids et la distance.
           </p>
         </div>
 
@@ -286,38 +298,79 @@ const ProformaQuoteForm = () => {
                   </div>
                 </div>
 
-                {/* Livraison */}
-                <div className="space-y-2">
-                  <Label>Type de livraison</Label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="deliveryType"
-                        value="standard"
-                        checked={formData.deliveryType === 'standard'}
-                        onChange={(e) => setFormData(prev => ({ ...prev, deliveryType: e.target.value as 'standard' | 'express' }))}
-                      />
-                      <span>Standard</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="deliveryType"
-                        value="express"
-                        checked={formData.deliveryType === 'express'}
-                        onChange={(e) => setFormData(prev => ({ ...prev, deliveryType: e.target.value as 'standard' | 'express' }))}
-                      />
-                      <span>Express</span>
-                    </label>
+                {/* Options de livraison */}
+                {formData.region && (
+                  <div className="space-y-4">
+                    <Label>Type de livraison</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {deliveryOptions.map((option) => (
+                        <Card key={option.type} className={`cursor-pointer transition-all ${
+                          formData.deliveryType === option.type ? 'ring-2 ring-primary' : ''
+                        }`}>
+                          <CardContent className="p-4">
+                            <label className="flex items-start space-x-3 cursor-pointer">
+                              <input
+                                type="radio"
+                                name="deliveryType"
+                                value={option.type}
+                                checked={formData.deliveryType === option.type}
+                                onChange={(e) => setFormData(prev => ({ 
+                                  ...prev, 
+                                  deliveryType: e.target.value as DeliveryType 
+                                }))}
+                                className="mt-1"
+                              />
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                  {getDeliveryIcon(option.type)}
+                                  <span className="font-semibold">{option.name}</span>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-1">
+                                  {option.description}
+                                </p>
+                                <div className="text-sm">
+                                  {option.price && (
+                                    <span className="font-medium text-primary">{option.price}</span>
+                                  )}
+                                  {option.priceRange && (
+                                    <span className="font-medium text-primary">{option.priceRange}</span>
+                                  )}
+                                  {option.priceInfo && (
+                                    <span className="text-muted-foreground">{option.priceInfo}</span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  <Clock className="h-3 w-3 inline mr-1" />
+                                  {option.estimatedDays}
+                                </p>
+                              </div>
+                            </label>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+
+                    {/* Distance pour livraison locale Tana */}
+                    {formData.deliveryType === 'local-tana' && formData.region === 'Antananarivo' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="distance">Distance du centre-ville (0-5km)</Label>
+                        <Input
+                          id="distance"
+                          type="number"
+                          min="0"
+                          max="5"
+                          step="0.5"
+                          value={formData.distanceInTana}
+                          onChange={(e) => setFormData(prev => ({ 
+                            ...prev, 
+                            distanceInTana: parseFloat(e.target.value) || 0 
+                          }))}
+                          placeholder="Distance en km"
+                        />
+                      </div>
+                    )}
                   </div>
-                  {deliveryInfo && (
-                    <p className="text-sm text-muted-foreground">
-                      <Truck className="h-4 w-4 inline mr-1" />
-                      {deliveryInfo.estimatedDays}
-                    </p>
-                  )}
-                </div>
+                )}
 
                 {/* Produits disponibles */}
                 <div className="space-y-4">
@@ -337,7 +390,7 @@ const ProformaQuoteForm = () => {
                               />
                               <div className="flex-1 min-w-0">
                                 <h4 className="font-medium text-sm truncate">{product.name}</h4>
-                                <p className="text-xs text-muted-foreground">{product.brand}</p>
+                                <p className="text-xs text-muted-foreground">{product.brand} • {product.weight}kg</p>
                                 <p className="text-sm font-bold text-primary mt-1">
                                   {formatProductPrice(product.priceMin)} MGA
                                 </p>
@@ -440,6 +493,10 @@ const ProformaQuoteForm = () => {
                       <span>{formatPrice(calculateTotals.subtotal)} MGA</span>
                     </div>
                     <div className="flex justify-between">
+                      <span>Poids total:</span>
+                      <span>{calculateTotals.totalWeight.toFixed(1)} kg</span>
+                    </div>
+                    <div className="flex justify-between">
                       <span>Livraison:</span>
                       <span>{formatPrice(calculateTotals.deliveryPrice)} MGA</span>
                     </div>
@@ -449,13 +506,6 @@ const ProformaQuoteForm = () => {
                       <span className="text-primary">{formatPrice(calculateTotals.total)} MGA</span>
                     </div>
                   </div>
-
-                  {deliveryInfo && (
-                    <div className="text-xs text-muted-foreground">
-                      <Clock className="h-3 w-3 inline mr-1" />
-                      {deliveryInfo.estimatedDays}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             )}
@@ -464,14 +514,14 @@ const ProformaQuoteForm = () => {
             {generatedPdf && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Facture Générée</CardTitle>
+                  <CardTitle>Facture générée</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button onClick={downloadPdf} className="w-full btn-hero">
+                <CardContent className="space-y-4">
+                  <Button onClick={downloadPdf} className="w-full" variant="outline">
                     <Download className="h-4 w-4 mr-2" />
                     Télécharger PDF
                   </Button>
-                  <Button onClick={sendViaWhatsApp} variant="outline" className="w-full">
+                  <Button onClick={sendViaWhatsApp} className="w-full bg-green-600 hover:bg-green-700">
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Envoyer via WhatsApp
                   </Button>

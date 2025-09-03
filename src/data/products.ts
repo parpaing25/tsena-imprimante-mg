@@ -21,6 +21,7 @@ export interface Product {
   inStock: boolean;
   isPopular?: boolean;
   kitIncluded?: boolean;
+  weight: number; // Poids en kg
 }
 
 export const products: Product[] = [
@@ -44,7 +45,8 @@ export const products: Product[] = [
     description: "Imprimante multifonction avec système EcoTank rechargeable. Vitesse: 11 ipm N&B, 6 ipm couleur. Capacité: 100 feuilles. Interface USB. Rendement jusqu'à 6000 pages noir et 7700 pages couleur avec bouteilles fournies. Écran LCD 1.2 pouces. Encre GI-41. Compatible Windows 11, macOS 12, Chrome OS.",
     imageUrl: "/lovable-uploads/6f0e4932-b660-48c6-be93-04076f89e98a.png",
     inStock: true,
-    isPopular: true
+    isPopular: true,
+    weight: 5.8
   },
   {
     id: "canon-g3410",
@@ -66,7 +68,8 @@ export const products: Product[] = [
     description: "Imprimante Wi-Fi avec système EcoTank. Vitesse: 8.8 ipm N&B, 5 ipm couleur. Capacité: 100 feuilles. Interface Wi-Fi, USB, PIXMA Cloud Link. Rendement 6000 pages noir, 7000 couleur. Écran LCD 1.2 pouces. Encre hybride pour documents nets et photos éclatantes. Application Canon PRINT.",
     imageUrl: "/lovable-uploads/925f7a68-7686-47c6-8d2a-1cc5ceec6acd.png",
     inStock: true,
-    isPopular: true
+    isPopular: true,
+    weight: 5.2
   },
   {
     id: "canon-mf3010",
@@ -87,7 +90,8 @@ export const products: Product[] = [
     monthlyVolume: "1600 pages/mois",
     description: "Imprimante laser monochrome multifonction professionnelle. Vitesse: 18 ppm. Résolution 1200x600 dpi. Première impression: 7.8 sec. Capacité: 150 feuilles entrée, 100 sortie. Interface USB 2.0. Écran LED. Cartouche 725 (1600 pages). Compatible Windows, Mac, Linux. Idéale bureaux et PME.",
     imageUrl: "/lovable-uploads/be8fe79d-42d7-412c-b505-a4d7a90964b7.png",
-    inStock: true
+    inStock: true,
+    weight: 15.2
   },
   {
     id: "canon-mg2545s",
@@ -110,7 +114,8 @@ export const products: Product[] = [
     description: "Imprimante multifonction d'entrée de gamme. Capacité: 70 feuilles papier ordinaire + 20 feuilles photo. Papier photo jusqu'à 200g/m². Interface USB haute vitesse. Dimensions: 426×306×145mm, 3.5kg. Parfaite pour usage domestique occasionnel. Prix: 410,000 MGA.",
     imageUrl: "/lovable-uploads/22d2190c-c4a0-4b6b-8619-a374bdf9604d.png",
     inStock: true,
-    kitIncluded: false
+    kitIncluded: false,
+    weight: 3.5
   },
   {
     id: "canon-tr4640",
@@ -133,7 +138,8 @@ export const products: Product[] = [
     description: "Solution bureau complète avec Wi-Fi, fax, impression recto-verso automatique. Capacité: 100 feuilles papier + 20 photo. Interface Wi-Fi, USB, PIXMA Cloud Link. Écran LCD Full Dot. Dimensions: 435×295×189mm, 5.9kg. Sans kit: 520,000 MGA, avec kit: 590,000 MGA. Idéale petites entreprises.",
     imageUrl: "/lovable-uploads/7a860bdf-62ea-4c69-8a97-bfe0e02cb5c6.png",
     inStock: true,
-    kitIncluded: false
+    kitIncluded: false,
+    weight: 5.9
   },
   {
     id: "canon-ts3440",
@@ -157,7 +163,8 @@ export const products: Product[] = [
     imageUrl: "/lovable-uploads/743838c9-3729-44d9-9766-7787029a5680.png",
     inStock: true,
     kitIncluded: false,
-    isPopular: true
+    isPopular: true,
+    weight: 4.0
   },
   {
     id: "canon-ts3640",
@@ -180,7 +187,8 @@ export const products: Product[] = [
     imageUrl: "/lovable-uploads/67e1ced0-23b3-4669-81ae-64a6799ca9f5.png",
     inStock: true,
     kitIncluded: true,
-    isPopular: true
+    isPopular: true,
+    weight: 4.0
   },
   // Nouveaux produits PROMOTION
   {
@@ -205,7 +213,8 @@ export const products: Product[] = [
     imageUrl: "/lovable-uploads/fba45568-a4cf-4956-82e8-1db0dbebeeac.png",
     inStock: true,
     kitIncluded: false,
-    isPopular: true
+    isPopular: true,
+    weight: 8.5
   },
   {
     id: "canon-mg3640s",
@@ -228,7 +237,8 @@ export const products: Product[] = [
     description: "Imprimante Wi-Fi multifonction avec impression recto-verso automatique. Impression sans marge et copie sans bordure. Capacité: 100 feuilles papier + 20 photo. Interface Wi-Fi, USB, PIXMA Cloud Link. Dimensions: 449×304×152mm, 5.4kg. Sans kit: 490,000 MGA, avec kit: 560,000 MGA.",
     imageUrl: "/lovable-uploads/1c0fe0a4-662e-4c19-a691-7a5ea5c35acd.png",
     inStock: true,
-    kitIncluded: false
+    kitIncluded: false,
+    weight: 5.4
   },
   {
     id: "epson-l4260",
@@ -250,7 +260,8 @@ export const products: Product[] = [
     description: "Imprimante EcoTank Wi-Fi pour impression photos professionnelle. Système EcoTank simple avec bouteilles à détrompeurs et réservoirs en façade. Volume fourni: 14,000 pages monochrome et 5,200 couleur (3 ans d'impression). Impression sans marge et copie sans bordure. Capacité: 100 feuilles + 20 photo.",
     imageUrl: "/lovable-uploads/4c9867c4-8f58-4012-a49f-c865e5379c0e.png",
     inStock: true,
-    isPopular: true
+    isPopular: true,
+    weight: 4.5
   },
   {
     id: "epson-l6290",
@@ -272,7 +283,8 @@ export const products: Product[] = [
     description: "Imprimante EcoTank Wi-Fi format A3+ pour impression photos professionnelle. Système EcoTank avec bouteilles à détrompeurs. Volume fourni: 14,000 pages monochrome et 5,200 couleur (3 ans d'impression). Impression et photocopie, scan, Wi-Fi. Capacité: 100 feuilles + 20 photo.",
     imageUrl: "/lovable-uploads/a7970c7c-c39e-4dd0-bc21-426e30d947a3.png",
     inStock: true,
-    isPopular: true
+    isPopular: true,
+    weight: 8.9
   },
   {
     id: "hp-smart-tank-515",
@@ -294,7 +306,8 @@ export const products: Product[] = [
     description: "Imprimante HP Smart Tank Wi-Fi pour impression photos professionnelle. Impression sans marge et copie sans bordure. Impression sans bordure jusqu'à 8.5×11 pouces (210×297mm). Capacité: 100 feuilles + 20 photo. Interface Wi-Fi, USB haute vitesse. Prix avec kit externe: 1,060,000 MGA.",
     imageUrl: "/lovable-uploads/0c2507fc-a3d1-4337-b83e-89a06ccdb7aa.png",
     inStock: true,
-    kitIncluded: true
+    kitIncluded: true,
+    weight: 4.8
   },
   {
     id: "epson-l3260",
@@ -316,7 +329,8 @@ export const products: Product[] = [
     description: "Imprimante EcoTank multifonction Wi-Fi. Impression, copie, scan. Vitesse: 15 ppm couleur, 33 ppm monochrome, 69 sec/photo 10×15cm. Recto-verso automatique. Écran LCD couleur 3.7cm. Capacité: 100 feuilles. Interface USB, Wi-Fi. Dimensions: 375×347×179mm, 4kg.",
     imageUrl: "/lovable-uploads/87f8cff4-831e-48c6-9761-5855c4eca2b1.png",
     inStock: true,
-    isPopular: true
+    isPopular: true,
+    weight: 4.0
   },
   {
     id: "epson-l805",
@@ -339,7 +353,8 @@ export const products: Product[] = [
     imageUrl: "/lovable-uploads/eca1bc2d-cf8d-48ab-a47f-968f67ccfebd.png",
     inStock: true,
     kitIncluded: true,
-    isPopular: true
+    isPopular: true,
+    weight: 5.9
   },
   {
     id: "epson-l3211",
@@ -360,7 +375,8 @@ export const products: Product[] = [
     monthlyVolume: "400-600 pages",
     description: "Imprimante EcoTank multifonction économique. Impression, copie, scan. Vitesse: 15 ppm couleur, 33 ppm monochrome, 27 sec/photo 10×15cm. Recto-verso automatique. Capacité: 100 feuilles. Interface USB haute vitesse. Dimensions: 375×347×179mm, 3.9kg.",
     imageUrl: "/lovable-uploads/cce8915c-fa54-41d9-b227-3123ea307eeb.png",
-    inStock: true
+    inStock: true,
+    weight: 3.9
   }
 ];
 

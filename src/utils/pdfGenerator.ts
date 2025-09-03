@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import { Product } from '@/data/products';
-import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice } from './deliveryRates';
+import { deliveryRates, getDeliveryRate, calculateDeliveryPrice, formatPrice, DeliveryType } from './deliveryRates';
 
 export interface InvoiceData {
   quoteNumber: string;
@@ -19,7 +19,7 @@ export interface InvoiceData {
     unitPrice: number;
     total: number;
   }[];
-  deliveryType: 'standard' | 'express';
+  deliveryType: DeliveryType;
   deliveryPrice: number;
   subtotal: number;
   total: number;

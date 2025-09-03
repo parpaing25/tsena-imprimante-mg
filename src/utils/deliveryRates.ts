@@ -1,81 +1,94 @@
-// Tarifs de livraison par région à Madagascar (en MGA)
+// Tarifs de livraison par région à Madagascar (en MGA TTC)
 export interface DeliveryRate {
   region: string;
-  standardRate: number; // Pour imprimantes standards (<10kg)
-  heavyRate: number; // Pour imprimantes lourdes (>10kg)
-  expressRate: number; // Livraison express (24-48h)
+  distance: number; // Distance depuis Tana en km
+  localTanaRate?: { min: number; max: number }; // Livraison locale Tana
+  planeRate: number; // Par avion (5500 MGA/kg, min 40000)
+  taxiBrousseRate: number; // Taxi-brousse (prix fixe)
+  rapidServiceBaseRate: number; // Service rapide (1200 MGA/kg/100km, min 15000)
   estimatedDays: string;
 }
 
 export const deliveryRates: DeliveryRate[] = [
   {
     region: "Antananarivo",
-    standardRate: 0, // Gratuit pour Tana
-    heavyRate: 0,
-    expressRate: 25000,
+    distance: 0,
+    localTanaRate: { min: 5000, max: 12000 }, // Selon distance dans Tana
+    planeRate: 40000, // Minimum
+    taxiBrousseRate: 0, // Local
+    rapidServiceBaseRate: 0, // Local
     estimatedDays: "Installation gratuite le jour même"
   },
   {
     region: "Antsirabe",
-    standardRate: 35000,
-    heavyRate: 50000,
-    expressRate: 75000,
+    distance: 170,
+    planeRate: 40000,
+    taxiBrousseRate: 45000,
+    rapidServiceBaseRate: Math.ceil(170 / 100) * 1200, // 2 tranches de 100km
     estimatedDays: "2-3 jours"
   },
   {
     region: "Fianarantsoa",
-    standardRate: 65000,
-    heavyRate: 90000,
-    expressRate: 120000,
+    distance: 410,
+    planeRate: 40000,
+    taxiBrousseRate: 42000,
+    rapidServiceBaseRate: Math.ceil(410 / 100) * 1200, // 5 tranches de 100km
     estimatedDays: "3-5 jours"
   },
   {
     region: "Toamasina",
-    standardRate: 70000,
-    heavyRate: 95000,
-    expressRate: 130000,
+    distance: 370,
+    planeRate: 40000,
+    taxiBrousseRate: 75000,
+    rapidServiceBaseRate: Math.ceil(370 / 100) * 1200, // 4 tranches de 100km
     estimatedDays: "3-5 jours"
   },
   {
     region: "Mahajanga",
-    standardRate: 80000,
-    heavyRate: 110000,
-    expressRate: 150000,
+    distance: 553,
+    planeRate: 40000,
+    taxiBrousseRate: 65000,
+    rapidServiceBaseRate: Math.ceil(553 / 100) * 1200, // 6 tranches de 100km
     estimatedDays: "4-6 jours"
   },
   {
     region: "Toliara",
-    standardRate: 95000,
-    heavyRate: 130000,
-    expressRate: 180000,
+    distance: 950,
+    planeRate: 40000,
+    taxiBrousseRate: 100000,
+    rapidServiceBaseRate: Math.ceil(950 / 100) * 1200, // 10 tranches de 100km
     estimatedDays: "5-7 jours"
   },
   {
     region: "Antsiranana",
-    standardRate: 85000,
-    heavyRate: 115000,
-    expressRate: 160000,
+    distance: 1100,
+    planeRate: 40000,
+    taxiBrousseRate: 205000,
+    rapidServiceBaseRate: Math.ceil(1100 / 100) * 1200, // 11 tranches de 100km
     estimatedDays: "4-6 jours"
   },
   {
     region: "Morondava",
-    standardRate: 90000,
-    heavyRate: 125000,
-    expressRate: 170000,
+    distance: 700,
+    planeRate: 40000,
+    taxiBrousseRate: 70000,
+    rapidServiceBaseRate: Math.ceil(700 / 100) * 1200, // 7 tranches de 100km
     estimatedDays: "5-7 jours"
   },
   {
     region: "Sambava",
-    standardRate: 100000,
-    heavyRate: 135000,
-    expressRate: 185000,
+    distance: 800,
+    planeRate: 40000,
+    taxiBrousseRate: 180000,
+    rapidServiceBaseRate: Math.ceil(800 / 100) * 1200, // 8 tranches de 100km
     estimatedDays: "6-8 jours"
   },
   {
     region: "Autre région",
-    standardRate: 75000,
-    heavyRate: 100000,
-    expressRate: 140000,
+    distance: 500,
+    planeRate: 40000,
+    taxiBrousseRate: 75000,
+    rapidServiceBaseRate: Math.ceil(500 / 100) * 1200, // 5 tranches de 100km
     estimatedDays: "4-7 jours (selon localisation)"
   }
 ];
@@ -85,18 +98,82 @@ export const getDeliveryRate = (region: string): DeliveryRate => {
   return rate || deliveryRates[deliveryRates.length - 1]; // Default to "Autre région"
 };
 
+export type DeliveryType = 'local-tana' | 'plane' | 'taxi-brousse' | 'rapid-service';
+
 export const calculateDeliveryPrice = (
   region: string, 
-  productWeight: number, 
-  isExpress: boolean = false
+  totalWeight: number, 
+  deliveryType: DeliveryType,
+  distanceInTana?: number // Pour livraison locale à Tana (0-5km)
 ): number => {
   const rate = getDeliveryRate(region);
   
-  if (isExpress) {
-    return rate.expressRate;
+  switch (deliveryType) {
+    case 'local-tana':
+      if (region === 'Antananarivo' && rate.localTanaRate) {
+        // Calcul linéaire entre min et max selon la distance (0-5km)
+        const distance = Math.min(distanceInTana || 0, 5);
+        const priceRange = rate.localTanaRate.max - rate.localTanaRate.min;
+        return rate.localTanaRate.min + (distance / 5) * priceRange;
+      }
+      return 0;
+      
+    case 'plane':
+      // 5500 MGA/kg, minimum 40000 MGA
+      return Math.max(40000, 5500 * totalWeight);
+      
+    case 'taxi-brousse':
+      return rate.taxiBrousseRate;
+      
+    case 'rapid-service':
+      // 1200 MGA/kg/100km, minimum 15000 MGA
+      const basePrice = rate.rapidServiceBaseRate * totalWeight;
+      return Math.max(15000, basePrice);
+      
+    default:
+      return 0;
+  }
+};
+
+export const getDeliveryOptions = (region: string) => {
+  const rate = getDeliveryRate(region);
+  const options = [];
+  
+  if (region === 'Antananarivo' && rate.localTanaRate) {
+    options.push({
+      type: 'local-tana' as DeliveryType,
+      name: 'Livraison locale Tana',
+      description: 'Dans un rayon de 5km du centre-ville',
+      priceRange: `${formatPrice(rate.localTanaRate.min)} - ${formatPrice(rate.localTanaRate.max)} MGA`,
+      estimatedDays: rate.estimatedDays
+    });
   }
   
-  return productWeight > 10 ? rate.heavyRate : rate.standardRate;
+  options.push(
+    {
+      type: 'plane' as DeliveryType,
+      name: 'Par avion',
+      description: 'Madagascar Airlines - fret intérieur (5500 MGA/kg)',
+      priceInfo: 'Minimum 40,000 MGA',
+      estimatedDays: '1-2 jours'
+    },
+    {
+      type: 'taxi-brousse' as DeliveryType,
+      name: 'Taxi-brousse',
+      description: 'Prix fixe par région',
+      price: formatPrice(rate.taxiBrousseRate) + ' MGA',
+      estimatedDays: rate.estimatedDays
+    },
+    {
+      type: 'rapid-service' as DeliveryType,
+      name: 'Service rapide',
+      description: 'Livraison express par route (1200 MGA/kg/100km)',
+      priceInfo: 'Minimum 15,000 MGA',
+      estimatedDays: '2-4 jours'
+    }
+  );
+  
+  return options;
 };
 
 export const formatPrice = (amount: number): string => {
