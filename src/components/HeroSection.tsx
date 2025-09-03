@@ -108,7 +108,7 @@ const HeroSection = () => {
 
           {/* Right Content - Product Showcase */}
           <div className="relative animate-slide-in-right">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-6 border border-white/20 px-4 sm:px-6 ml-8 sm:ml-12 lg:ml-16 mr-1 sm:mr-4 lg:mr-8">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-6 border border-white/20 px-4 sm:px-6 ml-16 sm:ml-20 lg:ml-24 mr-1 sm:mr-4 lg:mr-8">
               <h3 className="text-white text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <Zap className="h-4 w-4 text-accent-light" />
                 Nos Imprimantes Populaires
