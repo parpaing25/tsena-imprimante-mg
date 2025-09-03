@@ -67,23 +67,23 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-slide-in-up" style={{
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 animate-slide-in-up" style={{
             animationDelay: '0.8s'
           }}>
-              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 shadow-glow animate-pulse-glow" size="lg">
-                <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-xs sm:text-lg px-3 py-2 sm:px-8 sm:py-6 shadow-glow animate-pulse-glow" size="sm">
+                <Phone className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
                 <span className="sm:hidden">Appeler</span>
                 <span className="hidden sm:inline">Appeler 033 71 063 34</span>
               </Button>
               
-              <Button onClick={handleCatalogue} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="lg">
-                <Eye className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+              <Button onClick={handleCatalogue} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-xs sm:text-lg px-3 py-2 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="sm">
+                <Eye className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
                 <span className="sm:hidden">Catalogue</span>
                 <span className="hidden sm:inline">Voir le Catalogue</span>
               </Button>
               
-              <Button onClick={handleDevis} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="lg">
-                <FileText className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+              <Button onClick={handleDevis} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-xs sm:text-lg px-3 py-2 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="sm">
+                <FileText className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
                 <span className="sm:hidden">Devis</span>
                 <span className="hidden sm:inline">Demander un Devis</span>
               </Button>
@@ -108,7 +108,7 @@ const HeroSection = () => {
 
           {/* Right Content - Product Showcase */}
           <div className="relative animate-slide-in-right">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 sm:p-4 border border-white/20 px-3 sm:px-[21px] mx-2 sm:mx-8 lg:mx-[148px]">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-6 border border-white/20 px-4 sm:px-6 mx-1 sm:mx-4 lg:mx-8">
               <h3 className="text-white text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <Zap className="h-4 w-4 text-accent-light" />
                 Nos Imprimantes Populaires
@@ -119,7 +119,7 @@ const HeroSection = () => {
                   {featuredProducts.map(product => <CarouselItem key={product.id}>
                       <div className="flex flex-col items-center text-center text-white p-2 space-y-3">
                         <div className="relative group">
-                          <img src={product.imageUrl} alt={product.name} className="w-32 h-32 object-cover rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
+                          <img src={product.imageUrl} alt={product.name} className="w-36 h-36 sm:w-40 sm:h-40 object-cover rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
                         e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                       }} />
                           <div className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce-in">
