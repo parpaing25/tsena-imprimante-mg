@@ -177,5 +177,5 @@ export const getDeliveryOptions = (region: string) => {
 };
 
 export const formatPrice = (amount: number): string => {
-  return new Intl.NumberFormat('fr-FR').format(amount);
+  return new Intl.NumberFormat('fr-FR').format(amount).replace(/\s/g, '.').replace(/\//g, '.');
 };

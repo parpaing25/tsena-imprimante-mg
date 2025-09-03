@@ -381,7 +381,7 @@ export const products: Product[] = [
 ];
 
 export const formatPrice = (price: number, currency: string = "MGA") => {
-  return new Intl.NumberFormat('fr-FR').format(price) + " " + currency;
+  return new Intl.NumberFormat('fr-FR').format(price).replace(/\s/g, '.').replace(/\//g, '.') + " " + currency;
 };
 
 export const getPopularProducts = () => products.filter(p => p.isPopular);
