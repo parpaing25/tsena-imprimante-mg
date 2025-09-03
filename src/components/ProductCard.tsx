@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Phone, FileText, Wifi, Printer, Zap } from "lucide-react";
+import { ShoppingCart, FileText, Wifi, Printer, Zap } from "lucide-react";
 import { Product, formatPrice } from "@/data/products";
+import PurchaseForm from "./PurchaseForm";
 
 interface ProductCardProps {
   product: Product;
@@ -11,8 +13,10 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProps) => {
-  const handleCall = () => {
-    window.location.href = "tel:+261337106334";
+  const [isPurchaseFormOpen, setIsPurchaseFormOpen] = useState(false);
+
+  const handlePurchase = () => {
+    setIsPurchaseFormOpen(true);
   };
 
   const handleQuoteRequest = () => {
@@ -145,16 +149,23 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
               Détails
             </Button>
             <Button 
-              onClick={handleCall}
+              onClick={handlePurchase}
               className="btn-call"
               size="sm"
+              disabled={!product.inStock}
             >
-              <Phone className="h-4 w-4 mr-1" />
-              Appeler
+              <ShoppingCart className="h-4 w-4 mr-1" />
+              Acheter
             </Button>
           </div>
         </div>
       </CardFooter>
+
+      <PurchaseForm 
+        product={product}
+        isOpen={isPurchaseFormOpen}
+        onClose={() => setIsPurchaseFormOpen(false)}
+      />
     </Card>
   );
 };
