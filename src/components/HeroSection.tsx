@@ -108,7 +108,7 @@ const HeroSection = () => {
 
           {/* Right Content - Product Showcase */}
           <div className="relative animate-slide-in-right">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-6 border border-white/20 px-4 sm:px-6 mx-1 sm:mx-4 lg:mx-8">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-6 border border-white/20 px-4 sm:px-6 ml-8 sm:ml-12 lg:ml-16 mr-1 sm:mr-4 lg:mr-8">
               <h3 className="text-white text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <Zap className="h-4 w-4 text-accent-light" />
                 Nos Imprimantes Populaires
@@ -119,7 +119,7 @@ const HeroSection = () => {
                   {featuredProducts.map(product => <CarouselItem key={product.id}>
                       <div className="flex flex-col items-center text-center text-white p-2 space-y-3">
                         <div className="relative group">
-                          <img src={product.imageUrl} alt={product.name} className="w-36 h-36 sm:w-40 sm:h-40 object-cover rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
+                          <img src={product.imageUrl} alt={product.name} className="w-44 h-44 sm:w-48 sm:h-48 object-cover rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
                         e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                       }} />
                           <div className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce-in">
