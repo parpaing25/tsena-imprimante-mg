@@ -104,7 +104,8 @@ export const calculateDeliveryPrice = (
   region: string, 
   totalWeight: number, 
   deliveryType: DeliveryType,
-  distanceInTana?: number // Pour livraison locale à Tana (0-5km)
+  distanceInTana?: number, // Pour livraison locale à Tana (0-5km)
+  totalQuantity: number = 1 // Nombre total d'imprimantes
 ): number => {
   const rate = getDeliveryRate(region);
   
@@ -114,7 +115,9 @@ export const calculateDeliveryPrice = (
         // Calcul linéaire entre min et max selon la distance (0-5km)
         const distance = Math.min(distanceInTana || 0, 5);
         const priceRange = rate.localTanaRate.max - rate.localTanaRate.min;
-        return rate.localTanaRate.min + (distance / 5) * priceRange;
+        const pricePerPrinter = rate.localTanaRate.min + (distance / 5) * priceRange;
+        // Multiplier par le nombre d'imprimantes pour Antananarivo
+        return pricePerPrinter * totalQuantity;
       }
       return 0;
       
@@ -123,7 +126,14 @@ export const calculateDeliveryPrice = (
       return Math.max(40000, 5500 * totalWeight);
       
     case 'taxi-brousse':
-      return rate.taxiBrousseRate;
+      // Prix fixe pour la première imprimante + moitié du prix pour chaque imprimante supplémentaire
+      if (totalQuantity <= 1) {
+        return rate.taxiBrousseRate;
+      } else {
+        const additionalPrinters = totalQuantity - 1;
+        const additionalCost = (rate.taxiBrousseRate / 2) * additionalPrinters;
+        return rate.taxiBrousseRate + additionalCost;
+      }
       
     case 'rapid-service':
       // 1200 MGA/kg/100km, minimum 15000 MGA

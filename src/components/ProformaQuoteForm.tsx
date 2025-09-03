@@ -119,12 +119,16 @@ const ProformaQuoteForm = () => {
       return weight + (item.product.weight * item.quantity);
     }, 0);
 
+    const totalQuantity = formData.selectedProducts.reduce((count, item) => {
+      return count + item.quantity;
+    }, 0);
+
     const deliveryPrice = formData.region ? 
-      calculateDeliveryPrice(formData.region, totalWeight, formData.deliveryType, formData.distanceInTana) : 0;
+      calculateDeliveryPrice(formData.region, totalWeight, formData.deliveryType, formData.distanceInTana, totalQuantity) : 0;
 
     const total = subtotal + deliveryPrice;
 
-    return { subtotal, deliveryPrice, total, totalWeight };
+    return { subtotal, deliveryPrice, total, totalWeight, totalQuantity };
   }, [formData.selectedProducts, formData.region, formData.deliveryType, formData.distanceInTana]);
 
   const generateProformaInvoice = () => {
@@ -493,8 +497,8 @@ const ProformaQuoteForm = () => {
                       <span>{formatPrice(calculateTotals.subtotal)} MGA</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Poids total:</span>
-                      <span>{calculateTotals.totalWeight.toFixed(1)} kg</span>
+                      <span>Quantité totale:</span>
+                      <span>{calculateTotals.totalQuantity} imprimante{calculateTotals.totalQuantity > 1 ? 's' : ''}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Livraison:</span>

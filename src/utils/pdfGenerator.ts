@@ -81,15 +81,15 @@ export class PDFGenerator {
       y += 7;
     }
     
-    pdf.text(`☎ ${customer.phone}`, 20, y);
+    pdf.text(`Tel: ${customer.phone}`, 20, y);
     y += 7;
     
     if (customer.email) {
-      pdf.text(`✉ ${customer.email}`, 20, y);
+      pdf.text(`E-mail: ${customer.email}`, 20, y);
       y += 7;
     }
     
-    pdf.text(`📍 ${customer.region}`, 20, y);
+    pdf.text(`Adresse: ${customer.region}`, 20, y);
   }
 
   private static addProductsTable(pdf: jsPDF, products: InvoiceData['products']): number {
