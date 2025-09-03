@@ -89,6 +89,15 @@ const Footer = () => {
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm">
+                <Mail className="h-4 w-4 text-accent" />
+                <a 
+                  href="mailto:tsenaimprimante@gmail.com" 
+                  className="hover:text-accent-light transition-colors"
+                >
+                  tsenaimprimante@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
                 <Facebook className="h-4 w-4 text-[#1877f2]" />
                 <a 
                   href="https://www.facebook.com/TsenaImprimante" 

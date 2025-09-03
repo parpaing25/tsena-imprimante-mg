@@ -113,16 +113,23 @@ ${formData.notes ? `📝 Notes: ${formData.notes}` : ''}
 Commande passée via le site web TSENA`;
 
     try {
-      // Redirection vers la page Facebook avec le message pré-rempli
-      const facebookUrl = `https://www.facebook.com/messages/t/61557419549913`;
-      const encodedMessage = encodeURIComponent(message);
+      // Préparer l'email
+      const emailSubject = encodeURIComponent(`Nouvelle commande - ${product.name}`);
+      const emailBody = encodeURIComponent(message);
       
-      // Ouvrir Facebook Messenger avec le message
-      window.open(`${facebookUrl}?text=${encodedMessage}`, '_blank');
+      // Ouvrir le client email avec le message pré-rempli
+      window.open(`mailto:tsenaimprimante@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_self');
+      
+      // Attendre un court délai puis ouvrir Facebook Messenger
+      setTimeout(() => {
+        const facebookUrl = `https://www.facebook.com/messages/t/61557419549913`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`${facebookUrl}?text=${encodedMessage}`, '_blank');
+      }, 1000);
       
       toast({
         title: "Commande envoyée !",
-        description: "Votre commande a été transférée vers notre page Facebook. Nous vous contacterons rapidement.",
+        description: "Votre commande a été transférée par email et sur notre page Facebook. Nous vous contacterons rapidement.",
       });
 
       // Reset du formulaire
