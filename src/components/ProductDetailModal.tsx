@@ -21,6 +21,7 @@ import {
   X
 } from "lucide-react";
 import { Product, formatPrice } from "@/data/products";
+import ImageLightbox from "./ImageLightbox";
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -30,6 +31,8 @@ interface ProductDetailModalProps {
 }
 
 const ProductDetailModal = ({ product, isOpen, onClose, onRequestQuote }: ProductDetailModalProps) => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  
   if (!product) return null;
 
   const handleCall = () => {
@@ -39,6 +42,10 @@ const ProductDetailModal = ({ product, isOpen, onClose, onRequestQuote }: Produc
   const handleQuoteRequest = () => {
     onRequestQuote?.(product.id);
     onClose();
+  };
+
+  const handleImageClick = () => {
+    setLightboxOpen(true);
   };
 
   const getPriceDisplay = () => {
@@ -127,7 +134,8 @@ const ProductDetailModal = ({ product, isOpen, onClose, onRequestQuote }: Produc
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-80 object-contain rounded-lg bg-muted"
+                className="w-full h-80 object-contain rounded-lg bg-muted cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={handleImageClick}
                 onError={(e) => {
                   e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                 }}
@@ -321,6 +329,13 @@ const ProductDetailModal = ({ product, isOpen, onClose, onRequestQuote }: Produc
             </div>
           </div>
         </div>
+
+        <ImageLightbox
+          imageUrl={product.imageUrl}
+          alt={product.name}
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

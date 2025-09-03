@@ -4,8 +4,11 @@ import heroImage from "@/assets/hero-banner.jpg";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { products } from "@/data/products";
+import ImageLightbox from "./ImageLightbox";
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<{url: string, alt: string} | null>(null);
   const featuredProducts = products.filter(p => p.isPopular).slice(0, 5);
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,6 +28,11 @@ const HeroSection = () => {
     document.getElementById("devis")?.scrollIntoView({
       behavior: "smooth"
     });
+  };
+
+  const handleImageClick = (imageUrl: string, productName: string) => {
+    setSelectedImage({ url: imageUrl, alt: productName });
+    setLightboxOpen(true);
   };
   return <section className="relative min-h-[80vh] flex items-center bg-gradient-hero overflow-hidden">
       {/* Animated Product Carousel Background */}
@@ -119,7 +127,12 @@ const HeroSection = () => {
                   {featuredProducts.map(product => <CarouselItem key={product.id}>
                       <div className="flex flex-col items-center text-center text-white p-2 space-y-3">
                         <div className="relative group">
-                          <img src={product.imageUrl} alt={product.name} className="w-64 h-36 sm:w-68 sm:h-40 object-contain rounded-3xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105" onError={e => {
+                          <img 
+                            src={product.imageUrl} 
+                            alt={product.name} 
+                            className="w-64 h-36 sm:w-68 sm:h-40 object-contain rounded-3xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105 cursor-pointer" 
+                            onClick={() => handleImageClick(product.imageUrl, product.name)}
+                            onError={e => {
                         e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                       }} />
                           <div className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce-in">
@@ -199,6 +212,16 @@ const HeroSection = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
         {featuredProducts.map((_, index) => <button key={index} onClick={() => setCurrentSlide(index)} className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-accent w-8' : 'bg-white/30'}`} />)}
       </div>
+
+      {/* Image Lightbox */}
+      {selectedImage && (
+        <ImageLightbox
+          imageUrl={selectedImage.url}
+          alt={selectedImage.alt}
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </section>;
 };
 export default HeroSection;

@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ShoppingCart, FileText, Wifi, Printer, Zap } from "lucide-react";
 import { Product, formatPrice } from "@/data/products";
 import PurchaseForm from "./PurchaseForm";
+import ImageLightbox from "./ImageLightbox";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +15,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProps) => {
   const [isPurchaseFormOpen, setIsPurchaseFormOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const handlePurchase = () => {
     setIsPurchaseFormOpen(true);
@@ -25,6 +27,10 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
 
   const handleViewDetails = () => {
     onViewDetails?.(product.id);
+  };
+
+  const handleImageClick = () => {
+    setLightboxOpen(true);
   };
 
   const getPriceDisplay = () => {
@@ -65,7 +71,8 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-48 object-contain rounded-lg bg-muted"
+            className="w-full h-48 object-contain rounded-lg bg-muted cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={handleImageClick}
             onError={(e) => {
               e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
             }}
@@ -165,6 +172,13 @@ const ProductCard = ({ product, onRequestQuote, onViewDetails }: ProductCardProp
         product={product}
         isOpen={isPurchaseFormOpen}
         onClose={() => setIsPurchaseFormOpen(false)}
+      />
+
+      <ImageLightbox
+        imageUrl={product.imageUrl}
+        alt={product.name}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
       />
     </Card>
   );
