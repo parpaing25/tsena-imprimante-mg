@@ -11,7 +11,7 @@ const FAQ = () => {
   };
 
   const handleMessenger = () => {
-    window.open("https://www.facebook.com/TsenaImprimante", "_blank");
+    window.open("https://m.me/TsenaImprimante", "_blank");
   };
 
   return (

@@ -114,7 +114,7 @@ Commande passée via le site web TSENA`;
 
     try {
       // Envoyer directement via WhatsApp Business (plus fiable que Messenger)
-      const whatsappNumber = "261348887766"; // Remplacez par votre numéro WhatsApp Business
+      const whatsappNumber = "261327209033"; // Votre numéro WhatsApp Business
       const encodedMessage = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
       
