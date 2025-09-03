@@ -37,7 +37,9 @@ const Header = () => {
               <img src={tsenaLogo} alt="Tsena Imprimante" className="h-6 w-6 sm:h-8 sm:w-8 object-contain" />
             </div>
             <div className="hidden sm:block min-w-0">
-              <h1 className="text-sm sm:text-xl font-bold text-primary truncate">Tsena Imprimante</h1>
+              <h1 className="text-sm sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent truncate hover:scale-105 transition-transform duration-300 animate-pulse">
+                Tsena Imprimante
+              </h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Madagascar</p>
             </div>
           </div>
