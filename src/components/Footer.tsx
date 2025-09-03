@@ -12,7 +12,7 @@ const Footer = () => {
   };
 
   const handleMessenger = () => {
-    window.open("https://m.me/TsenaImprimante", "_blank");
+    window.open("https://www.facebook.com/TsenaImprimante", "_blank");
   };
 
   const currentYear = new Date().getFullYear();
@@ -114,7 +114,7 @@ const Footer = () => {
               </div>
             </div>
             
-            <div className="pt-2">
+            <div className="pt-2 flex gap-2">
               <Button 
                 onClick={handleMessenger}
                 variant="outline" 
@@ -123,6 +123,15 @@ const Footer = () => {
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Messenger
+              </Button>
+              <Button 
+                onClick={handleFacebook}
+                variant="outline" 
+                size="sm"
+                className="border-[#1877f2] bg-[#1877f2] text-white hover:bg-[#166fe5]"
+              >
+                <Facebook className="h-4 w-4 mr-2" />
+                Facebook
               </Button>
             </div>
           </div>

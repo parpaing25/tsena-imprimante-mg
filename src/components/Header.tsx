@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle, Menu, X } from "lucide-react";
+import { Phone, MessageCircle, Menu, X, Facebook } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import tsenaLogo from "@/assets/tsena-logo.png";
 
@@ -20,7 +20,11 @@ const Header = () => {
   };
 
   const handleMessenger = () => {
-    window.open("https://m.me/TsenaImprimante", "_blank");
+    window.open("https://www.facebook.com/TsenaImprimante", "_blank");
+  };
+
+  const handleFacebook = () => {
+    window.open("https://www.facebook.com/TsenaImprimante", "_blank");
   };
 
   return (
@@ -72,6 +76,16 @@ const Header = () => {
               Messenger
             </Button>
 
+            <Button 
+              onClick={handleFacebook}
+              variant="outline"
+              size="sm"
+              className="hidden sm:flex bg-[#1877f2] text-white border-[#1877f2] hover:bg-[#166fe5]"
+            >
+              <Facebook className="h-4 w-4 mr-2" />
+              Facebook
+            </Button>
+
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -99,6 +113,10 @@ const Header = () => {
                     <Button onClick={handleMessenger} variant="outline" className="w-full">
                       <MessageCircle className="h-4 w-4 mr-2" />
                       Facebook Messenger
+                    </Button>
+                    <Button onClick={handleFacebook} variant="outline" className="w-full bg-[#1877f2] text-white border-[#1877f2] hover:bg-[#166fe5]">
+                      <Facebook className="h-4 w-4 mr-2" />
+                      Page Facebook
                     </Button>
                   </div>
                 </div>

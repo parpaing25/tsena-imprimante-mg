@@ -121,7 +121,7 @@ const HeroSection = () => {
               <div className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4" />
                 <a 
-                  href="https://m.me/TsenaImprimante" 
+                  href="https://www.facebook.com/TsenaImprimante" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="hover:text-accent-light transition-colors"
