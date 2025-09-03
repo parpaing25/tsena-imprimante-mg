@@ -147,7 +147,7 @@ export class PDFGenerator {
   }
 
   private static addCustomerInfo(pdf: jsPDF, customer: InvoiceData['customer']) {
-    // Section client à gauche
+    // Section client uniquement
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(44, 82, 130);
@@ -175,38 +175,10 @@ export class PDFGenerator {
     }
     
     pdf.text(`Adresse: ${customer.region}`, 20, y);
-
-    // Section entreprise à droite
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'bold');
-    pdf.setTextColor(44, 82, 130);
-    pdf.text('ENTREPRISE:', 120, 65);
-    
-    pdf.setFontSize(10);
-    pdf.setFont('helvetica', 'normal');
-    pdf.setTextColor(0, 0, 0);
-    
-    let rightY = 75;
-    pdf.text('TSENA IMPRIMANTE', 120, rightY);
-    rightY += 7;
-    
-    pdf.text('Spécialiste imprimantes Madagascar', 120, rightY);
-    rightY += 7;
-    
-    pdf.text('Tel: 033 71 063 34', 120, rightY);
-    rightY += 7;
-    
-    pdf.text('E-mail: contact@tsena.mg', 120, rightY);
-    rightY += 7;
-    
-    pdf.text('Facebook: TsenaImprimante', 120, rightY);
-    rightY += 7;
-    
-    pdf.text('Antananarivo, Madagascar', 120, rightY);
   }
 
   private static addProductsTable(pdf: jsPDF, products: InvoiceData['products']): number {
-    const startY = 110;
+    const startY = 105;
     let currentY = startY;
     
     // En-tête du tableau
