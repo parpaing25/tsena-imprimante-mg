@@ -364,7 +364,7 @@ export const products: Product[] = [
   }
 ];
 
-export const formatPrice = (price: number, currency: string = "Ariary") => {
+export const formatPrice = (price: number, currency: string = "MGA") => {
   return new Intl.NumberFormat('fr-FR').format(price) + " " + currency;
 };
 
