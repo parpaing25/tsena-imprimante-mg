@@ -169,6 +169,8 @@ const Index = () => {
 
         <ProductCatalog />
 
+        <QuoteForm />
+
         {/* Quick Tips */}
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4">
@@ -253,8 +255,6 @@ const Index = () => {
         </section>
 
         <ContactSection />
-
-        <QuoteForm />
       </main>
       <Footer />
     </div>
