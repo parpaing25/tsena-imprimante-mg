@@ -380,7 +380,7 @@ Commande passée via le site web TSENA`;
               disabled={isSubmitting}
               className="flex-1"
             >
-              {isSubmitting ? "Envoi en cours..." : "Passer commande"}
+              {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
             </Button>
           </div>
         </form>
