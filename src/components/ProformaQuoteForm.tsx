@@ -188,17 +188,34 @@ const ProformaQuoteForm = () => {
 
   const sendViaWhatsApp = () => {
     if (generatedPdf) {
-      const message = `Salut ! Voici ma demande de devis pour les imprimantes sélectionnées:\n\n` +
+      // D'abord télécharger le PDF automatiquement
+      generatedPdf.save(`Facture-Proforma-${formData.name.replace(/\s+/g, '-')}.pdf`);
+      
+      // Ensuite envoyer le message WhatsApp avec les instructions
+      const message = `Bonjour ! Voici ma demande de devis pour les imprimantes sélectionnées:\n\n` +
+        `📋 *DÉTAILS CLIENT:*\n` +
         `Nom: ${formData.name}\n` +
         `Téléphone: ${formData.phone}\n` +
-        `Région: ${formData.region}\n\n` +
-        `Produits:\n${formData.selectedProducts.map(item => 
-          `- ${item.product.name} (Qté: ${item.quantity})`
+        `Région: ${formData.region}\n` +
+        `${formData.company ? `Entreprise: ${formData.company}\n` : ''}` +
+        `${formData.email ? `Email: ${formData.email}\n` : ''}\n` +
+        `🛒 *PRODUITS COMMANDÉS:*\n${formData.selectedProducts.map(item => 
+          `• ${item.product.name} - Qté: ${item.quantity} - ${formatPrice(item.product.priceMin * item.quantity)} MGA`
         ).join('\n')}\n\n` +
-        `Total estimé: ${formatPrice(calculateTotals.total)} MGA\n\n` +
-        `Je souhaiterais recevoir la facture proforma officielle par email ou WhatsApp. Merci !`;
+        `💰 *RÉSUMÉ FINANCIER:*\n` +
+        `• Sous-total: ${formatPrice(calculateTotals.subtotal)} MGA\n` +
+        `• Livraison: ${formatPrice(calculateTotals.deliveryPrice)} MGA\n` +
+        `• *TOTAL: ${formatPrice(calculateTotals.total)} MGA*\n\n` +
+        `📄 *FACTURE PROFORMA:*\n` +
+        `J'ai téléchargé la facture proforma PDF sur mon appareil. Je vais vous l'envoyer dans le prochain message.\n\n` +
+        `Merci de me confirmer la disponibilité et les modalités de paiement ! 🙏`;
 
       handleWhatsApp(message);
+      
+      // Notifier l'utilisateur
+      toast.success("PDF téléchargé !", {
+        description: "Le PDF a été téléchargé. Envoyez-le manuellement via WhatsApp après avoir envoyé le message."
+      });
     }
   };
 
