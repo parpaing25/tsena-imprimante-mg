@@ -8,6 +8,7 @@ import { Search, Filter, SlidersHorizontal } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { products, Product, getPopularProducts } from "@/data/products";
 import { toast } from "sonner";
+import AnimatedSection from "./AnimatedSection";
 
 const ProductCatalog = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -88,7 +89,7 @@ const ProductCatalog = () => {
   return (
     <section id="catalogue" className="py-16 bg-gradient-subtle">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <AnimatedSection animation="fade-in-scale" className="text-center mb-12">
           <h2 className="text-4xl font-bold text-primary mb-4">
             Notre Catalogue d'Imprimantes
           </h2>
@@ -96,46 +97,54 @@ const ProductCatalog = () => {
             Découvrez notre sélection d'imprimantes Canon, HP, Epson et Brother. 
             Livraison en province • Installation gratuite à Tana
           </p>
-        </div>
+        </AnimatedSection>
 
         {/* Popular Products */}
         {popularProducts.length > 0 && (
-          <div className="mb-12">
+          <AnimatedSection animation="slide-in-left" delay={200} className="mb-12">
             <div className="flex items-center gap-2 mb-6">
-              <Badge className="bg-accent text-accent-foreground">Populaires</Badge>
+              <Badge className="bg-accent text-accent-foreground animate-bounce-in">Populaires</Badge>
               <h3 className="text-2xl font-semibold">Nos Bestsellers</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {popularProducts.slice(0, 3).map((product) => (
-                <ProductCard
+              {popularProducts.slice(0, 3).map((product, index) => (
+                <AnimatedSection 
                   key={product.id}
-                  product={product}
-                  onRequestQuote={handleRequestQuote}
-                  onViewDetails={handleViewDetails}
-                />
+                  animation="fade-in-scale" 
+                  delay={index * 100}
+                  className="hover-lift"
+                >
+                  <ProductCard
+                    product={product}
+                    onRequestQuote={handleRequestQuote}
+                    onViewDetails={handleViewDetails}
+                  />
+                </AnimatedSection>
               ))}
             </div>
-          </div>
+          </AnimatedSection>
         )}
 
         {/* Filters */}
-        <Card className="mb-8">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <Filter className="h-5 w-5" />
-                Filtres et Recherche
-              </CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <SlidersHorizontal className="h-4 w-4 mr-2" />
-                {showFilters ? "Masquer" : "Afficher"} les filtres
-              </Button>
-            </div>
-          </CardHeader>
+        <AnimatedSection animation="slide-in-up" delay={400}>
+          <Card className="mb-8">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Filter className="h-5 w-5" />
+                  Filtres et Recherche
+                </CardTitle>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="hover-lift"
+                >
+                  <SlidersHorizontal className="h-4 w-4 mr-2" />
+                  {showFilters ? "Masquer" : "Afficher"} les filtres
+                </Button>
+              </div>
+            </CardHeader>
           <CardContent className="space-y-4">
             {/* Search */}
             <div className="relative">
@@ -212,19 +221,28 @@ const ProductCatalog = () => {
             </div>
           </CardContent>
         </Card>
+        </AnimatedSection>
 
         {/* Products Grid */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onRequestQuote={handleRequestQuote}
-                onViewDetails={handleViewDetails}
-              />
-            ))}
-          </div>
+          <AnimatedSection animation="fade-in" delay={600}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product, index) => (
+                <AnimatedSection 
+                  key={product.id}
+                  animation="slide-in-up" 
+                  delay={index * 50}
+                  className="hover-lift"
+                >
+                  <ProductCard
+                    product={product}
+                    onRequestQuote={handleRequestQuote}
+                    onViewDetails={handleViewDetails}
+                  />
+                </AnimatedSection>
+              ))}
+            </div>
+          </AnimatedSection>
         ) : (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔍</div>
