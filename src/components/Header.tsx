@@ -40,7 +40,7 @@ const Header = () => {
               <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent truncate hover:scale-105 transition-transform duration-300">
                 Tsena Imprimante
               </h1>
-              <p className="text-xs text-muted-foreground hidden sm:block">Madagascar</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">eto Madagasikara</p>
             </div>
           </div>
 
