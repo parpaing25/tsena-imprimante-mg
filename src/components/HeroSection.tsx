@@ -43,7 +43,7 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="text-white">
             <div className="animate-slide-in-left">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6">
                 <span className="block animate-bounce-in">Tongasoa</span>
                 <span className="block text-accent-light animate-bounce-in" style={{
                 animationDelay: '0.2s'
@@ -52,13 +52,13 @@ const HeroSection = () => {
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl mb-4 opacity-90 animate-fade-in-scale" style={{
+              <p className="text-lg sm:text-xl md:text-2xl mb-4 opacity-90 animate-fade-in-scale" style={{
               animationDelay: '0.4s'
             }}>
                 Votre partenaire imprimante à Madagascar
               </p>
               
-              <p className="text-lg mb-8 opacity-80 max-w-2xl animate-slide-in-up" style={{
+              <p className="text-base sm:text-lg mb-8 opacity-80 max-w-2xl animate-slide-in-up" style={{
               animationDelay: '0.6s'
             }}>
                 Canon, HP, Epson, Brother • Jet d'encre, Laser, Réservoir • 
@@ -67,22 +67,25 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 animate-slide-in-up" style={{
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-slide-in-up" style={{
             animationDelay: '0.8s'
           }}>
-              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-lg px-8 py-6 shadow-glow animate-pulse-glow" size="lg">
-                <Phone className="h-5 w-5 mr-3" />
-                Appeler 033 71 063 34
+              <Button onClick={handleCall} className="btn-hero bg-success hover:bg-success/90 text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 shadow-glow animate-pulse-glow" size="lg">
+                <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+                <span className="sm:hidden">Appeler</span>
+                <span className="hidden sm:inline">Appeler 033 71 063 34</span>
               </Button>
               
-              <Button onClick={handleCatalogue} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-lg px-8 py-6 backdrop-blur-sm hover-lift" size="lg">
-                <Eye className="h-5 w-5 mr-3" />
-                Voir le Catalogue
+              <Button onClick={handleCatalogue} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="lg">
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+                <span className="sm:hidden">Catalogue</span>
+                <span className="hidden sm:inline">Voir le Catalogue</span>
               </Button>
               
-              <Button onClick={handleDevis} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-lg px-8 py-6 backdrop-blur-sm hover-lift" size="lg">
-                <FileText className="h-5 w-5 mr-3" />
-                Demander un Devis
+              <Button onClick={handleDevis} variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary text-sm sm:text-lg px-4 py-3 sm:px-8 sm:py-6 backdrop-blur-sm hover-lift" size="lg">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3" />
+                <span className="sm:hidden">Devis</span>
+                <span className="hidden sm:inline">Demander un Devis</span>
               </Button>
             </div>
 
@@ -105,7 +108,7 @@ const HeroSection = () => {
 
           {/* Right Content - Product Showcase */}
           <div className="relative animate-slide-in-right">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 px-[21px] mx-[148px]">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 sm:p-4 border border-white/20 px-3 sm:px-[21px] mx-2 sm:mx-8 lg:mx-[148px]">
               <h3 className="text-white text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <Zap className="h-4 w-4 text-accent-light" />
                 Nos Imprimantes Populaires
