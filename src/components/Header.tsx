@@ -32,13 +32,13 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden bg-white">
-              <img src={tsenaLogo} alt="Tsena Imprimante" className="h-8 w-8 object-contain" />
+          <div className="flex items-center space-x-2 min-w-0">
+            <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg overflow-hidden bg-white flex-shrink-0">
+              <img src={tsenaLogo} alt="Tsena Imprimante" className="h-6 w-6 sm:h-8 sm:w-8 object-contain" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-primary">Tsena Imprimante</h1>
-              <p className="text-xs text-muted-foreground">Madagascar</p>
+            <div className="hidden xs:block sm:block min-w-0">
+              <h1 className="text-base sm:text-xl font-bold text-primary truncate">Tsena Imprimante</h1>
+              <p className="text-xs text-muted-foreground hidden sm:block">Madagascar</p>
             </div>
           </div>
 
@@ -56,14 +56,15 @@ const Header = () => {
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <Button 
               onClick={handleCall}
-              className="btn-call hidden sm:flex"
+              className="btn-call hidden xs:flex text-xs sm:text-sm px-2 sm:px-3"
               size="sm"
             >
-              <Phone className="h-4 w-4 mr-2" />
-              033 71 063 34
+              <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">033 71 063 34</span>
+              <span className="sm:hidden">Appeler</span>
             </Button>
             
             <Button 
