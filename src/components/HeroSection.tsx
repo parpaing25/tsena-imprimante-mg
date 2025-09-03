@@ -134,9 +134,9 @@ const HeroSection = () => {
 
           {/* Right Content - Product Showcase */}
           <div className="relative animate-slide-in-right">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-semibold mb-6 text-center flex items-center justify-center gap-2">
-                <Zap className="h-5 w-5 text-accent-light" />
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+              <h3 className="text-white text-lg font-semibold mb-4 text-center flex items-center justify-center gap-2">
+                <Zap className="h-4 w-4 text-accent-light" />
                 Nos Imprimantes Populaires
               </h3>
               
@@ -144,40 +144,40 @@ const HeroSection = () => {
                 <CarouselContent>
                   {featuredProducts.map((product) => (
                     <CarouselItem key={product.id}>
-                      <div className="flex flex-col items-center text-center text-white p-4 space-y-4">
+                      <div className="flex flex-col items-center text-center text-white p-2 space-y-3">
                         <div className="relative group">
                           <img 
                             src={product.imageUrl} 
                             alt={product.name}
-                            className="w-40 h-40 object-cover rounded-xl mb-4 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105"
+                            className="w-32 h-32 object-cover rounded-xl mb-3 shadow-xl hover-lift transition-all duration-300 group-hover:scale-105"
                             onError={(e) => {
                               e.currentTarget.src = "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=400&fit=crop";
                             }}
                           />
-                          <div className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full font-bold animate-bounce-in">
+                          <div className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce-in">
                             TOP
                           </div>
                         </div>
                         
-                        <div className="space-y-2">
-                          <h4 className="font-bold text-lg leading-tight">{product.name}</h4>
-                          <p className="text-accent-light font-bold text-2xl">
-                            {new Intl.NumberFormat('fr-FR').format(product.priceMin)} MGA
+                        <div className="space-y-1">
+                          <h4 className="font-bold text-base leading-tight">{product.name}</h4>
+                          <p className="text-accent-light font-bold text-xl">
+                            {new Intl.NumberFormat('fr-FR').format(product.priceMin)} Ariary
                           </p>
                         </div>
                         
                         <div className="flex flex-wrap justify-center gap-1">
                           {product.features.slice(0, 3).map((feature, idx) => (
-                            <span key={idx} className="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                            <span key={idx} className="text-xs bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm">
                               {feature}
                             </span>
                           ))}
                         </div>
                         
-                        <div className="flex gap-2 pt-2">
+                        <div className="flex gap-2 pt-1">
                           <Button 
                             size="sm" 
-                            className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+                            className="bg-white/20 hover:bg-white/30 text-white border border-white/30 text-xs px-3 py-1"
                             onClick={() => {
                               document.getElementById("catalogue")?.scrollIntoView({ behavior: "smooth" });
                             }}
@@ -186,7 +186,7 @@ const HeroSection = () => {
                           </Button>
                           <Button 
                             size="sm" 
-                            className="bg-accent hover:bg-accent/90 text-white"
+                            className="bg-accent hover:bg-accent/90 text-white text-xs px-3 py-1"
                             onClick={() => {
                               document.getElementById("devis")?.scrollIntoView({ behavior: "smooth" });
                             }}
@@ -198,18 +198,18 @@ const HeroSection = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-2 bg-white/20 border-white/30 text-white hover:bg-white/30" />
-                <CarouselNext className="right-2 bg-white/20 border-white/30 text-white hover:bg-white/30" />
+                <CarouselPrevious className="left-1 bg-white/20 border-white/30 text-white hover:bg-white/30 h-8 w-8" />
+                <CarouselNext className="right-1 bg-white/20 border-white/30 text-white hover:bg-white/30 h-8 w-8" />
               </Carousel>
               
               {/* Indicateurs de popularité */}
-              <div className="mt-6 text-center">
-                <p className="text-white/80 text-sm">
+              <div className="mt-3 text-center">
+                <p className="text-white/80 text-xs">
                   ⭐ Les choix préférés de nos clients malgaches
                 </p>
-                <div className="flex justify-center gap-1 mt-2">
+                <div className="flex justify-center gap-1 mt-1">
                   {featuredProducts.map((_, index) => (
-                    <div key={index} className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{animationDelay: `${index * 0.2}s`}}></div>
+                    <div key={index} className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style={{animationDelay: `${index * 0.2}s`}}></div>
                   ))}
                 </div>
               </div>
