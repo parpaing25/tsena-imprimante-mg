@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle, Menu, X, Facebook } from "lucide-react";
+import { Phone, MessageCircle, Menu, X, Facebook, FileText } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import tsenaLogo from "@/assets/tsena-logo.png";
 
@@ -17,6 +17,10 @@ const Header = () => {
 
   const handleCall = () => {
     window.location.href = "tel:+261337106334";
+  };
+
+  const handleProforma = () => {
+    document.getElementById('devis')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleMessenger = () => {
@@ -61,6 +65,16 @@ const Header = () => {
           {/* Action Buttons */}
           <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
             <Button 
+              onClick={handleProforma}
+              className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-accent-foreground text-xs px-2 py-1 h-8 shadow-medium"
+              size="sm"
+            >
+              <FileText className="h-3 w-3 mr-1" />
+              <span className="hidden sm:inline">Proforma</span>
+              <span className="sm:hidden">PDF</span>
+            </Button>
+            
+            <Button 
               onClick={handleCall}
               className="btn-call text-xs px-2 py-1 h-8"
               size="sm"
@@ -90,6 +104,10 @@ const Header = () => {
                     </a>
                   ))}
                   <div className="pt-4 border-t space-y-3">
+                    <Button onClick={handleProforma} className="bg-gradient-to-r from-accent to-primary hover:from-accent/90 hover:to-primary/90 text-accent-foreground w-full shadow-medium">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Demander Proforma PDF
+                    </Button>
                     <Button onClick={handleCall} className="btn-call w-full">
                       <Phone className="h-4 w-4 mr-2" />
                       Appeler 033 71 063 34
