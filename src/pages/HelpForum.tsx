@@ -181,6 +181,26 @@ const HelpForum = () => {
     });
   };
 
+  const handleLikeResponse = (questionId: number, responseId: number) => {
+    setQuestions(prev => prev.map(q => 
+      q.id === questionId 
+        ? {
+            ...q, 
+            responses: q.responses.map(r => 
+              r.id === responseId 
+                ? { ...r, helpful: r.helpful + 1 }
+                : r
+            )
+          }
+        : q
+    ));
+    
+    toast({
+      title: "Merci ! 👍",
+      description: "Votre vote a été pris en compte"
+    });
+  };
+
   const getCategoryColor = (category: string) => {
     const colors = {
       "Général": "bg-muted text-muted-foreground",
@@ -333,13 +353,21 @@ const HelpForum = () => {
                             </div>
                             <p className="text-sm mb-2">{response.content}</p>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => handleLikeResponse(question.id, response.id)}
+                              >
                                 <ThumbsUp className="h-3 w-3 mr-1" />
                                 {response.helpful}
                               </Button>
-                              <Button variant="ghost" size="sm">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => setShowResponse(question.id)}
+                              >
                                 <Reply className="h-3 w-3 mr-1" />
-                                Répondre
+                                💬 Répondre
                               </Button>
                             </div>
                           </div>
