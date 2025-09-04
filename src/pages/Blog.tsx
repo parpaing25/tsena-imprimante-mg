@@ -127,6 +127,7 @@ const Blog = () => {
             <Button 
               variant="outline"
               size="lg"
+              onClick={() => navigate('/aide')}
             >
               <MessageCircle className="h-5 w-5 mr-2" />
               Poser une Question
