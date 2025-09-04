@@ -20,10 +20,16 @@ import { useToast } from "@/hooks/use-toast";
 const HelpForum = () => {
   const { toast } = useToast();
   const [showNewQuestion, setShowNewQuestion] = useState(false);
+  const [showResponse, setShowResponse] = useState<number | null>(null);
+  const [userName, setUserName] = useState(localStorage.getItem('userName') || "");
   const [newQuestion, setNewQuestion] = useState({
     title: "",
     description: "",
     category: "Général"
+  });
+  const [newResponse, setNewResponse] = useState({
+    content: "",
+    questionId: 0
   });
 
   // Questions et réponses fictives pour l'exemple
@@ -89,6 +95,15 @@ const HelpForum = () => {
   const categories = ["Général", "Dépannage", "Conseil d'achat", "Maintenance", "Installation"];
 
   const handleSubmitQuestion = () => {
+    if (!userName.trim()) {
+      toast({
+        title: "Nom requis",
+        description: "Veuillez entrer votre nom ou pseudo",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!newQuestion.title.trim() || !newQuestion.description.trim()) {
       toast({
         title: "Erreur",
@@ -98,11 +113,13 @@ const HelpForum = () => {
       return;
     }
 
+    localStorage.setItem('userName', userName);
+
     const question = {
       id: questions.length + 1,
       title: newQuestion.title,
       description: newQuestion.description,
-      author: "Vous",
+      author: userName,
       date: "À l'instant",
       category: newQuestion.category,
       status: "Ouvert",
@@ -114,8 +131,53 @@ const HelpForum = () => {
     setShowNewQuestion(false);
     
     toast({
-      title: "Question publiée !",
+      title: "Question publiée ! 🎉",
       description: "Votre question a été publiée. La communauté et nos experts vont vous répondre."
+    });
+  };
+
+  const handleSubmitResponse = () => {
+    if (!userName.trim()) {
+      toast({
+        title: "Nom requis",
+        description: "Veuillez entrer votre nom ou pseudo",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!newResponse.content.trim()) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez écrire une réponse",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    localStorage.setItem('userName', userName);
+
+    const response = {
+      id: Date.now(),
+      author: userName,
+      date: "À l'instant",
+      content: newResponse.content,
+      helpful: 0,
+      isExpert: false
+    };
+
+    setQuestions(prev => prev.map(q => 
+      q.id === newResponse.questionId 
+        ? { ...q, responses: [...q.responses, response] }
+        : q
+    ));
+
+    setNewResponse({ content: "", questionId: 0 });
+    setShowResponse(null);
+    
+    toast({
+      title: "Réponse ajoutée ! 💬",
+      description: "Merci pour votre contribution à la communauté."
     });
   };
 
@@ -170,7 +232,15 @@ const HelpForum = () => {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium mb-2 block">Titre de votre question</label>
+                      <label className="text-sm font-medium mb-2 block">👤 Votre nom ou pseudo</label>
+                      <Input
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        placeholder="Ex: Rakoto, Sarah, TechExpert..."
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">📝 Titre de votre question</label>
                       <Input
                         value={newQuestion.title}
                         onChange={(e) => setNewQuestion({ ...newQuestion, title: e.target.value })}
@@ -178,16 +248,16 @@ const HelpForum = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium mb-2 block">Description détaillée</label>
+                      <label className="text-sm font-medium mb-2 block">📄 Description détaillée</label>
                       <Textarea
                         value={newQuestion.description}
                         onChange={(e) => setNewQuestion({ ...newQuestion, description: e.target.value })}
-                        placeholder="Décrivez votre problème ou question en détail..."
+                        placeholder="Décrivez votre problème ou question en détail... Soyez précis sur le modèle d'imprimante, le problème rencontré, etc."
                         rows={4}
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium mb-2 block">Catégorie</label>
+                      <label className="text-sm font-medium mb-2 block">🏷️ Catégorie</label>
                       <select 
                         value={newQuestion.category}
                         onChange={(e) => setNewQuestion({ ...newQuestion, category: e.target.value })}
@@ -199,11 +269,11 @@ const HelpForum = () => {
                       </select>
                     </div>
                     <div className="flex gap-2">
-                      <Button onClick={handleSubmitQuestion}>
-                        Publier la question
+                      <Button onClick={handleSubmitQuestion} className="btn-hero">
+                        📤 Publier la question
                       </Button>
                       <Button variant="outline" onClick={() => setShowNewQuestion(false)}>
-                        Annuler
+                        ❌ Annuler
                       </Button>
                     </div>
                   </CardContent>
@@ -277,11 +347,47 @@ const HelpForum = () => {
                       </div>
                     )}
                     
-                    {/* Bouton répondre pour questions sans réponses */}
-                    {question.responses.length === 0 && (
-                      <Button variant="outline" size="sm">
+                    {/* Formulaire de réponse */}
+                    {showResponse === question.id && (
+                      <div className="mt-4 p-4 bg-muted/30 rounded-lg border">
+                        <h4 className="font-medium mb-3">💬 Votre réponse</h4>
+                        {!userName && (
+                          <div className="mb-3">
+                            <Input
+                              value={userName}
+                              onChange={(e) => setUserName(e.target.value)}
+                              placeholder="Votre nom ou pseudo..."
+                              className="mb-2"
+                            />
+                          </div>
+                        )}
+                        <Textarea
+                          value={newResponse.questionId === question.id ? newResponse.content : ""}
+                          onChange={(e) => setNewResponse({ content: e.target.value, questionId: question.id })}
+                          placeholder="Partagez votre solution ou vos conseils... Soyez précis et utile !"
+                          rows={3}
+                          className="mb-3"
+                        />
+                        <div className="flex gap-2">
+                          <Button size="sm" onClick={handleSubmitResponse}>
+                            ✅ Publier la réponse
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => setShowResponse(null)}>
+                            ❌ Annuler
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Bouton répondre */}
+                    {showResponse !== question.id && (
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setShowResponse(question.id)}
+                      >
                         <Reply className="h-3 w-3 mr-2" />
-                        Répondre à cette question
+                        💬 Répondre à cette question
                       </Button>
                     )}
                   </CardContent>

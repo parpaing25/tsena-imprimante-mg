@@ -28,50 +28,65 @@ const ArticleDetail = () => {
       category: "Guide d'achat",
       readTime: "5 min",
       content: `
-        <h2>Introduction</h2>
-        <p>Le choix entre une imprimante EcoTank et une imprimante à cartouches traditionnelles est crucial pour optimiser vos coûts d'impression. Dans ce guide complet, nous analysons les avantages et inconvénients de chaque technologie.</p>
+        <h2>🌟 Introduction</h2>
+        <p>Le choix entre une imprimante EcoTank et une imprimante à cartouches traditionnelles est <strong>crucial</strong> pour optimiser vos coûts d'impression à Madagascar ! 💰 Dans ce guide complet, nous analysons les avantages et inconvénients de chaque technologie pour vous aider à faire le meilleur choix.</p>
         
-        <h2>Imprimantes EcoTank : La révolution des réservoirs d'encre</h2>
-        <p>Les imprimantes EcoTank d'Epson utilisent des réservoirs d'encre rechargeables intégrés au lieu de cartouches. Cette technologie permet:</p>
+        <h2>🚀 Imprimantes EcoTank : La révolution des réservoirs d'encre</h2>
+        <p>Les imprimantes EcoTank d'Epson ont révolutionné le monde de l'impression avec leurs réservoirs d'encre rechargeables ! ✨ Cette technologie innovante permet :</p>
         <ul>
-          <li><strong>Économies drastiques :</strong> Jusqu'à 70% d'économies sur les coûts d'impression</li>
-          <li><strong>Autonomie exceptionnelle :</strong> Jusqu'à 4500 pages en noir et 7500 pages en couleur</li>
-          <li><strong>Facilité d'utilisation :</strong> Recharge simple avec des flacons d'encre</li>
+          <li>💡 <strong>Économies drastiques :</strong> Jusqu'à 70% d'économies sur vos coûts d'impression</li>
+          <li>⚡ <strong>Autonomie exceptionnelle :</strong> Jusqu'à 4500 pages en noir et 7500 pages en couleur</li>
+          <li>🎯 <strong>Facilité d'utilisation :</strong> Recharge simple avec des flacons d'encre colorés</li>
+          <li>🌱 <strong>Écologique :</strong> Réduction significative des déchets plastiques</li>
         </ul>
 
-        <h2>Cartouches traditionnelles : Fiabilité éprouvée</h2>
-        <p>Les imprimantes à cartouches restent une solution fiable avec leurs propres avantages:</p>
+        <h2>🏆 Cartouches traditionnelles : Fiabilité éprouvée</h2>
+        <p>Les imprimantes à cartouches restent une solution <strong>fiable et accessible</strong> avec leurs propres avantages :</p>
         <ul>
-          <li><strong>Investissement initial moindre :</strong> Prix d'achat plus abordable</li>
-          <li><strong>Qualité constante :</strong> Impression de haute qualité garantie</li>
-          <li><strong>Disponibilité :</strong> Cartouches facilement trouvables</li>
+          <li>💵 <strong>Investissement initial moindre :</strong> Prix d'achat plus abordable</li>
+          <li>🎨 <strong>Qualité constante :</strong> Impression de haute qualité garantie</li>
+          <li>🛒 <strong>Disponibilité :</strong> Cartouches facilement trouvables partout à Madagascar</li>
+          <li>🔧 <strong>Simplicité :</strong> Installation et remplacement ultra-simple</li>
         </ul>
 
-        <h2>Comparatif des coûts sur 3 ans</h2>
-        <p>Pour un usage de 200 pages par mois :</p>
-        <ul>
-          <li><strong>EcoTank :</strong> 1 200 000 MGA (imprimante + encre)</li>
-          <li><strong>Cartouches :</strong> 1 800 000 MGA (imprimante + cartouches)</li>
-          <li><strong>Économie EcoTank :</strong> 600 000 MGA sur 3 ans</li>
-        </ul>
+        <h2>📊 Comparatif des coûts sur 3 ans</h2>
+        <p>Voici une analyse détaillée pour un usage de <strong>200 pages par mois</strong> :</p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <ul>
+            <li>🟢 <strong>EcoTank :</strong> 1 200 000 MGA (imprimante + encre sur 3 ans)</li>
+            <li>🔵 <strong>Cartouches :</strong> 1 800 000 MGA (imprimante + cartouches sur 3 ans)</li>
+            <li>💰 <strong>Économie EcoTank :</strong> <span style="color: #22c55e; font-size: 1.2em;">600 000 MGA sur 3 ans !</span></li>
+          </ul>
+        </div>
 
-        <h2>Notre recommandation</h2>
-        <p>Choisissez <strong>EcoTank</strong> si :</p>
-        <ul>
-          <li>Vous imprimez plus de 100 pages par mois</li>
-          <li>Vous cherchez des économies à long terme</li>
-          <li>Vous voulez réduire les déchets plastiques</li>
-        </ul>
+        <h2>💡 Notre recommandation d'experts</h2>
+        <div style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 20px; border-radius: 12px; margin: 20px 0;">
+          <p><strong>🎯 Choisissez EcoTank si :</strong></p>
+          <ul>
+            <li>📈 Vous imprimez plus de 100 pages par mois</li>
+            <li>💰 Vous cherchez des économies à long terme</li>
+            <li>🌱 Vous voulez réduire votre impact environnemental</li>
+            <li>🏢 Vous avez un usage professionnel ou familial intensif</li>
+          </ul>
+        </div>
 
-        <p>Optez pour les <strong>cartouches</strong> si :</p>
-        <ul>
-          <li>Vous imprimez moins de 50 pages par mois</li>
-          <li>Votre budget initial est limité</li>
-          <li>Vous privilégiez la simplicité d'entretien</li>
-        </ul>
+        <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 20px; border-radius: 12px; margin: 20px 0;">
+          <p><strong>🎯 Optez pour les cartouches si :</strong></p>
+          <ul>
+            <li>📄 Vous imprimez moins de 50 pages par mois</li>
+            <li>💳 Votre budget initial est limité</li>
+            <li>🎨 Vous privilégiez l'impression photo occasionnelle</li>
+            <li>🏠 Usage domestique léger et ponctuel</li>
+          </ul>
+        </div>
 
-        <h2>Conclusion</h2>
-        <p>Les imprimantes EcoTank représentent l'avenir de l'impression domestique et professionnelle à Madagascar. Malgré un investissement initial plus important, elles offrent des économies substantielles et une expérience utilisateur améliorée.</p>
+        <h2>🎉 Conclusion</h2>
+        <p>Les imprimantes EcoTank représentent <strong>l'avenir de l'impression</strong> domestique et professionnelle à Madagascar ! 🇲🇬 Malgré un investissement initial plus important, elles offrent des économies substantielles et une expérience utilisateur améliorée.</p>
+        
+        <div style="background: #22c55e; color: white; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0;">
+          <p><strong>🛒 Prêt à faire des économies ? Contactez Tsena Imprimante dès maintenant !</strong></p>
+          <p>📞 <strong>033 71 063 34</strong> | 💬 Conseils gratuits et livraison rapide !</p>
+        </div>
       `
     },
     "2": {
@@ -83,43 +98,57 @@ const ArticleDetail = () => {
       category: "Nouveautés",
       readTime: "4 min",
       content: `
-        <h2>Les innovations 2025 débarquent à Madagascar</h2>
-        <p>Cette année marque un tournant dans le monde de l'impression avec l'arrivée des nouvelles gammes Canon MAXIFY et HP Smart Tank, spécialement conçues pour les besoins modernes.</p>
+        <h2>🚀 Les innovations 2025 débarquent à Madagascar !</h2>
+        <p>Cette année marque un <strong>tournant majeur</strong> dans le monde de l'impression ! 🎯 L'arrivée des nouvelles gammes Canon MAXIFY et HP Smart Tank à Madagascar apporte des technologies de pointe spécialement conçues pour répondre aux besoins modernes des entreprises et particuliers malgaches.</p>
 
-        <h2>Canon MAXIFY 2025 : Performance professionnelle</h2>
-        <p>La nouvelle gamme MAXIFY de Canon apporte des améliorations significatives :</p>
+        <h2>🏆 Canon MAXIFY 2025 : Performance professionnelle</h2>
+        <p>Canon frappe fort avec sa nouvelle gamme MAXIFY qui repousse les limites de l'impression professionnelle ! ⚡</p>
         <ul>
-          <li><strong>Wi-Fi 6 :</strong> Connexion ultra-rapide et stable</li>
-          <li><strong>Impression recto-verso automatique :</strong> Économies de papier garanties</li>
-          <li><strong>Écran tactile 4.3" :</strong> Interface intuitive et moderne</li>
-          <li><strong>Vitesse d'impression :</strong> Jusqu'à 24 pages par minute</li>
+          <li>📶 <strong>Wi-Fi 6 :</strong> Connexion ultra-rapide et stable - fini les coupures !</li>
+          <li>🌿 <strong>Impression recto-verso automatique :</strong> Économies de papier garanties (jusqu'à 50% !)</li>
+          <li>📱 <strong>Écran tactile 4.3" :</strong> Interface intuitive et moderne comme votre smartphone</li>
+          <li>⚡ <strong>Vitesse d'impression :</strong> Jusqu'à 24 pages par minute - Productivité maximale !</li>
+          <li>🔒 <strong>Sécurité avancée :</strong> Protection des documents sensibles</li>
         </ul>
 
-        <h2>HP Smart Tank : Intelligence artificielle intégrée</h2>
-        <p>HP révolutionne l'expérience utilisateur avec ses Smart Tank :</p>
+        <h2>🤖 HP Smart Tank : Intelligence artificielle intégrée</h2>
+        <p>HP révolutionne complètement l'expérience utilisateur avec ses Smart Tank nouvelle génération ! 🌟</p>
         <ul>
-          <li><strong>Smart Tasks :</strong> Automatisation des tâches répétitives</li>
-          <li><strong>Détection automatique :</strong> Reconnaissance du type de document</li>
-          <li><strong>Application HP Smart :</strong> Contrôle total depuis votre smartphone</li>
-          <li><strong>Sécurité renforcée :</strong> Protection contre les cyberattaques</li>
+          <li>🎯 <strong>Smart Tasks :</strong> Automatisation intelligente des tâches répétitives</li>
+          <li>🔍 <strong>Détection automatique :</strong> Reconnaissance du type de document (photo, texte, graphique)</li>
+          <li>📱 <strong>Application HP Smart :</strong> Contrôle total depuis votre smartphone - imprimez depuis n'importe où !</li>
+          <li>🛡️ <strong>Sécurité renforcée :</strong> Protection avancée contre les cyberattaques</li>
+          <li>🌱 <strong>Mode éco intelligent :</strong> Optimisation automatique de la consommation d'encre</li>
         </ul>
 
-        <h2>Disponibilité à Madagascar</h2>
-        <p>Tsena Imprimante est fier d'annoncer l'arrivée de ces nouveaux modèles :</p>
-        <ul>
-          <li>Canon MAXIFY GX7020 : Disponible dès février 2025</li>
-          <li>HP Smart Tank 7602 : Pré-commandes ouvertes</li>
-          <li>Livraison gratuite à Antananarivo</li>
-          <li>Formation gratuite incluse</li>
-        </ul>
+        <h2>🇲🇬 Disponibilité à Madagascar</h2>
+        <div style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 20px; border-radius: 12px; margin: 20px 0;">
+          <p><strong>🎉 Tsena Imprimante est fier d'annoncer l'arrivée exclusive de ces nouveaux modèles :</strong></p>
+          <ul>
+            <li>🖨️ Canon MAXIFY GX7020 : <strong>Disponible dès février 2025</strong></li>
+            <li>📦 HP Smart Tank 7602 : <strong>Pré-commandes ouvertes maintenant !</strong></li>
+            <li>🚚 <strong>Livraison gratuite</strong> à Antananarivo et environs</li>
+            <li>🎓 <strong>Formation gratuite</strong> incluse pour maîtriser toutes les fonctionnalités</li>
+            <li>🔧 <strong>Support technique</strong> 1 an gratuit</li>
+          </ul>
+        </div>
 
-        <h2>Prix et offres de lancement</h2>
-        <p>Profitez de nos offres spéciales de lancement :</p>
-        <ul>
-          <li>Canon MAXIFY GX7020 : 1 850 000 MGA (au lieu de 2 100 000 MGA)</li>
-          <li>HP Smart Tank 7602 : 1 650 000 MGA (au lieu de 1 900 000 MGA)</li>
-          <li>Pack encre offert pour tout achat avant fin mars</li>
-        </ul>
+        <h2>💰 Prix et offres de lancement exceptionnelles</h2>
+        <p>Profitez de nos <strong>offres spéciales de lancement</strong> - Quantités limitées ! 🔥</p>
+        <div style="background: #f59e0b; color: white; padding: 20px; border-radius: 12px; margin: 20px 0;">
+          <ul>
+            <li>🖨️ <strong>Canon MAXIFY GX7020 :</strong> <span style="font-size: 1.2em;">1 850 000 MGA</span> <span style="text-decoration: line-through; opacity: 0.8;">(au lieu de 2 100 000 MGA)</span></li>
+            <li>🖨️ <strong>HP Smart Tank 7602 :</strong> <span style="font-size: 1.2em;">1 650 000 MGA</span> <span style="text-decoration: line-through; opacity: 0.8;">(au lieu de 1 900 000 MGA)</span></li>
+            <li>🎁 <strong>Pack encre complet OFFERT</strong> pour tout achat avant fin mars 2025 !</li>
+            <li>💳 <strong>Paiement en 3 fois sans frais</strong> disponible</li>
+          </ul>
+        </div>
+
+        <div style="background: #dc2626; color: white; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0;">
+          <p><strong>⏰ OFFRE LIMITÉE - Ne manquez pas cette opportunité !</strong></p>
+          <p>📞 <strong>Appelez maintenant : 033 71 063 34</strong></p>
+          <p>💬 <strong>Ou visitez notre showroom pour une démonstration gratuite !</strong></p>
+        </div>
       `
     }
     // Ajouter plus d'articles selon les besoins
