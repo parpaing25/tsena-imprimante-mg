@@ -10,6 +10,8 @@ import Conseils from "./pages/Conseils";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Blog from "./pages/Blog";
+import ArticleDetail from "./pages/ArticleDetail";
+import HelpForum from "./pages/HelpForum";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/conseils" element={<Conseils />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<ArticleDetail />} />
+          <Route path="/aide" element={<HelpForum />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

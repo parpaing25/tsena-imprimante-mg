@@ -9,12 +9,17 @@ import {
   Lightbulb,
   TrendingUp,
   Award,
-  Settings
+  Settings,
+  HelpCircle,
+  MessageCircle
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const Blog = () => {
+  const navigate = useNavigate();
+  
   const handleCall = () => {
     window.location.href = "tel:+261337106334";
   };
@@ -108,9 +113,24 @@ const Blog = () => {
             <h1 className="text-4xl font-bold text-primary mb-4">
               Blog & Actualités
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
               Conseils d'experts, guides d'achat et actualités du monde de l'impression à Madagascar
             </p>
+            <Button 
+              onClick={() => navigate('/aide')}
+              className="btn-hero mr-4"
+              size="lg"
+            >
+              <HelpCircle className="h-5 w-5 mr-2" />
+              Forum d'Entraide
+            </Button>
+            <Button 
+              variant="outline"
+              size="lg"
+            >
+              <MessageCircle className="h-5 w-5 mr-2" />
+              Poser une Question
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -128,7 +148,10 @@ const Blog = () => {
                           {article.category}
                         </Badge>
                       </div>
-                      <CardTitle className="text-2xl text-primary hover:text-primary/80 cursor-pointer">
+                      <CardTitle 
+                        className="text-2xl text-primary hover:text-primary/80 cursor-pointer"
+                        onClick={() => navigate(`/blog/${article.id}`)}
+                      >
                         {article.title}
                       </CardTitle>
                     </CardHeader>
@@ -147,7 +170,10 @@ const Blog = () => {
                         </div>
                         <span>📖 {article.readTime} de lecture</span>
                       </div>
-                      <Button className="mt-4 btn-hero">
+                      <Button 
+                        className="mt-4 btn-hero"
+                        onClick={() => navigate(`/blog/${article.id}`)}
+                      >
                         Lire l'article complet
                       </Button>
                     </CardContent>
@@ -166,7 +192,10 @@ const Blog = () => {
                             {article.category}
                           </Badge>
                         </div>
-                        <CardTitle className="text-lg hover:text-primary cursor-pointer">
+                        <CardTitle 
+                          className="text-lg hover:text-primary cursor-pointer"
+                          onClick={() => navigate(`/blog/${article.id}`)}
+                        >
                           {article.title}
                         </CardTitle>
                       </CardHeader>
@@ -181,7 +210,12 @@ const Blog = () => {
                           </div>
                           <span>📖 {article.readTime}</span>
                         </div>
-                        <Button variant="outline" size="sm" className="w-full">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => navigate(`/blog/${article.id}`)}
+                        >
                           Lire la suite
                         </Button>
                       </CardContent>
