@@ -11,14 +11,18 @@ import {
   Calendar,
   User,
   ThumbsUp,
-  Reply
+  Reply,
+  ArrowLeft,
+  BookOpen
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 
 const HelpForum = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showNewQuestion, setShowNewQuestion] = useState(false);
   const [showResponse, setShowResponse] = useState<number | null>(null);
   const [userName, setUserName] = useState(localStorage.getItem('userName') || "");
@@ -222,6 +226,18 @@ const HelpForum = () => {
       
       <main className="py-16">
         <div className="container mx-auto px-4">
+          {/* Navigation retour */}
+          <div className="mb-6">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/blog')}
+              className="mb-4"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              ← Retour au Blog
+            </Button>
+          </div>
+
           {/* Hero Section */}
           <div className="text-center mb-12">
             <HelpCircle className="h-16 w-16 mx-auto text-primary mb-4" />
@@ -231,14 +247,24 @@ const HelpForum = () => {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
               Posez vos questions sur l'impression et aidez la communauté ! Nos experts et utilisateurs partagent leurs connaissances.
             </p>
-            <Button 
-              onClick={() => setShowNewQuestion(true)}
-              className="btn-hero"
-              size="lg"
-            >
-              <Plus className="h-5 w-5 mr-2" />
-              Poser une question
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                onClick={() => setShowNewQuestion(true)}
+                className="btn-hero"
+                size="lg"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Poser une question
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                onClick={() => navigate('/blog')}
+              >
+                <BookOpen className="h-5 w-5 mr-2" />
+                📖 Voir les Articles
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
